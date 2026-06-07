@@ -1,0 +1,495 @@
+[00:00:00 --> 00:00:19] We have previously seen that we can use pipes between parent and child.
+[00:00:19 --> 00:00:26] I have my parent, parent moves along at some stage.
+[00:00:26 --> 00:00:30] I will call pipe on the south of file descriptors.
+[00:00:30 --> 00:00:35] And then at another stage I will fork.
+[00:00:35 --> 00:00:38] These file descriptors will be duplicated.
+[00:00:38 --> 00:00:45] And then I have both parent and child process that can read and write between two ends of this pipe.
+[00:00:46 --> 00:00:51] And this is of course one directional pipe.
+[00:00:51 --> 00:00:57] that works well when the processes have been defined in this way by forking.
+[00:00:57 --> 00:01:00] But we can also have two independent processes.
+[00:01:00 --> 00:01:05] Let's call it process A, process B.
+[00:01:06 --> 00:01:12] And if they wanted to use a pipe, but they didn't want to use a regular file,
+[00:01:12 --> 00:01:18] what they could do is they could create a pipe, similar pipe.
+[00:01:18 --> 00:01:22] But this time they're going to give it a name.
+[00:01:22 --> 00:01:26] this is a named pipe.
+[00:01:26 --> 00:01:33] And what will happen is process A will open this specific file.
+[00:01:33 --> 00:01:36] It's a name, some other parameters.
+[00:01:36 --> 00:01:44] And then it could do things to this pipe, such as write, some information.
+[00:01:44 --> 00:01:53] Process B can also open the same pipe for a given name.
+[00:01:53 --> 00:02:02] And then it can perform some operations such as, I have a flat area here, such as reading.
+[00:02:03 --> 00:02:06] From this particular pipe.
+[00:02:06 --> 00:02:11] And of course, if it's reading and it's blocking, then we won't be able to do anything further.
+[00:02:11 --> 00:02:19] we will still be able to use a pipe between two, let's call them unanimized processes.
+[00:02:19 --> 00:02:30] If we have this common name, and we can set this up in our system quite easily.
+[00:02:30 --> 00:02:33] Using this command here, mkfifu.
+[00:02:33 --> 00:02:40] And this is the unix command, what I wanted was the system one.
+[00:02:40 --> 00:02:51] in the C library, we have a function which can construct this named pipe that can be shared between two processes.
+[00:02:51 --> 00:02:54] this is our construction.
+[00:02:54 --> 00:02:58] We need to call mkfifu, give it a path name.
+[00:02:58 --> 00:03:02] And then it'll be creating a special file on the file system.
+[00:03:02 --> 00:03:07] this is a file which may not be written to disk that may reside in memory.
+[00:03:07 --> 00:03:15] it'll be much better than our regular file, which relies on disk access and with perform operations such as read or write.
+[00:03:15 --> 00:03:17] The buffers have to be flushed.
+[00:03:17 --> 00:03:22] And that requires invoking a device driver for a block device, which can take extra time.
+[00:03:22 --> 00:03:29] mkfifu is quite nice to make a pipe between two independent processes.
+[00:03:29 --> 00:03:35] The only thing that we have to define is a, oops, sorry here, a shared file name.
+[00:03:35 --> 00:03:40] And let's not forget the most important thing.
+[00:03:40 --> 00:03:42] A protocol.
+[00:03:42 --> 00:03:54] even if we have these two processes opening this shared pipe, there has to be some mechanism by which process a, send some data onto the pipe.
+[00:03:54 --> 00:04:00] And that will be received by process B. And then there'll be some activity that follows this.
+[00:04:00 --> 00:04:11] one may imagine a state transition diagram whereby different sets of actions can lead to different states.
+[00:04:12 --> 00:04:18] And this process can be repeated or variations can be made and depends on what actions we take.
+[00:04:18 --> 00:04:26] in the initial state, maybe process a, send some data on the pipe and then process a, and has this particular state.
+[00:04:26 --> 00:04:36] And then process a is also reading other forms of input and then changes its state to some other state, depending on that input.
+[00:04:36 --> 00:04:40] And it may revolve around to the same kind of state.
+[00:04:40 --> 00:04:47] you still need some way of defining how these processes are going to use these shared files.
+[00:04:47 --> 00:04:53] what I have is a very small example of this named pipe.
+[00:04:53 --> 00:04:59] And what I'll do is I'll just start with this main function. I've written a bit before it.
+[00:04:59 --> 00:05:04] And we have the named pipe.
+[00:05:05 --> 00:05:09] We have a name that we can choose. This could be any.
+[00:05:09 --> 00:05:16] Ball name. It doesn't really matter. I could call it my pipe dot text.
+[00:05:16 --> 00:05:20] But it's not an actual text file, but any file name is fine.
+[00:05:20 --> 00:05:26] And then we also need specify permissions. How should this pipe be used by this user?
+[00:05:26 --> 00:05:33] And in this case, I can say, well, it's read and write access. this user based permission, 0600.
+[00:05:33 --> 00:05:37] OK, this permission is only for this user.
+[00:05:37 --> 00:05:42] the current user of my system is.
+[00:05:42 --> 00:05:47] User.
+[00:05:47 --> 00:05:52] OK, this is the current user. that means when I set up this pipe.
+[00:05:52 --> 00:05:58] I've got privilege access for read and write, but my groups and my other people in the file system.
+[00:05:58 --> 00:06:05] No, do not have that one. if I take a look at my group listing.
+[00:06:05 --> 00:06:09] Here are the if you users and here are the actual groups.
+[00:06:09 --> 00:06:12] And there is an audio group called.
+[00:06:12 --> 00:06:17] Well, there is an audio group. And in that audio group, it contains both pulse and John.
+[00:06:17 --> 00:06:20] this is the users that belong to this group.
+[00:06:20 --> 00:06:22] I could also specify.
+[00:06:22 --> 00:06:25] What are the permissions for the groups.
+[00:06:25 --> 00:06:28] That are going to use this pipe, this name pipe.
+[00:06:28 --> 00:06:32] And then I've got other, which is anyone on the system. What kind of privileges do they have access?
+[00:06:32 --> 00:06:37] Can I do read only or write only or no access?
+[00:06:37 --> 00:06:42] our command is very straightforward. We simply invoke MK FIFA.
+[00:06:42 --> 00:06:45] And then we perform operations on this file.
+[00:06:45 --> 00:06:51] And just for now, I'm going to.
+[00:06:51 --> 00:06:54] I just ignore this.
+[00:06:54 --> 00:07:00] And I'll just sleep.
+[00:07:00 --> 00:07:09] Okay, sleeping for five seconds. Maybe I'll make it 15 seconds.
+[00:07:09 --> 00:07:12] Okay.
+[00:07:12 --> 00:07:16] let's build this name five.
+[00:07:16 --> 00:07:19] Okay, this.
+[00:07:19 --> 00:07:22] And we are sleeping for 15 seconds.
+[00:07:22 --> 00:07:25] And the reason for that is I wanted to show you.
+[00:07:25 --> 00:07:27] This actual file that's been constructed.
+[00:07:27 --> 00:07:30] this one is a pipe file.
+[00:07:30 --> 00:07:32] It's a non-regular file.
+[00:07:32 --> 00:07:35] And it only exists.
+[00:07:35 --> 00:07:37] All that 15 seconds.
+[00:07:37 --> 00:07:39] .
+[00:07:39 --> 00:07:41] I think the 15 seconds expired.
+[00:07:41 --> 00:07:42] Yes, it expired.
+[00:07:42 --> 00:07:44] we don't have it anymore.
+[00:07:44 --> 00:07:47] If I was to run this again.
+[00:07:47 --> 00:07:49] Okay, I have my pipe here.
+[00:07:49 --> 00:07:50] Every two seconds.
+[00:07:50 --> 00:07:54] This command will refresh and run that one.
+[00:07:54 --> 00:07:59] the pipe will continue to exist as long as I'm running this program.
+[00:07:59 --> 00:08:03] And the reason for that is because I have, as you can see,
+[00:08:03 --> 00:08:04] this dispute.
+[00:08:04 --> 00:08:08] As I have this further command, which unlinks that particular name.
+[00:08:08 --> 00:08:11] this is yet another resource that was allocated.
+[00:08:11 --> 00:08:16] And as good practice, we want to make sure this is removed.
+[00:08:16 --> 00:08:21] question, what happens if I run this program,
+[00:08:21 --> 00:08:24] I create this pipe and I don't remove it.
+[00:08:24 --> 00:08:29] I think you may already know this answer.
+[00:08:29 --> 00:08:32] Okay, the file exists more or less indefinitely.
+[00:08:32 --> 00:08:34] The program has ceased execution.
+[00:08:34 --> 00:08:39] There is no additional process or threads or any kind of clean up that is happening.
+[00:08:39 --> 00:08:44] That is a resource that is now indefinitely in the system.
+[00:08:44 --> 00:08:46] Okay, until I force to be deleted.
+[00:08:46 --> 00:08:49] I can delete this pipe this,
+[00:08:49 --> 00:08:55] but of course any sensible program would terminate and clean up all necessary resources.
+[00:08:55 --> 00:08:58] that's what I've done here.
+[00:08:58 --> 00:09:01] Okay.
+[00:09:01 --> 00:09:04] once I've created this pipe,
+[00:09:04 --> 00:09:06] which has this special file name,
+[00:09:06 --> 00:09:13] now I can pass in this shared name and then operate on it with my low level file I owe operations.
+[00:09:13 --> 00:09:15] let's take a look at this function.
+[00:09:15 --> 00:09:22] It accepts a string to a name of a pipe or , a special regular special file.
+[00:09:22 --> 00:09:29] And what I can do is I can get file descriptors for the read end of the pipe.
+[00:09:29 --> 00:09:32] Okay, this is the open, put in the flag read only.
+[00:09:32 --> 00:09:36] And I can get a file descriptor for the end of the pipe.
+[00:09:36 --> 00:09:43] this is completing our picture.
+[00:09:43 --> 00:09:48] Of the shared pipe where I have my read end.
+[00:09:48 --> 00:09:50] And I have my end.
+[00:09:50 --> 00:09:56] Okay, now it is also possible to open them in either one or both even.
+[00:09:56 --> 00:10:06] you can do this, but as a pipe, we specifically want to access maybe just one side read and one side for .
+[00:10:06 --> 00:10:09] as we progress through our program,
+[00:10:09 --> 00:10:11] we can now perform operations on this pipe.
+[00:10:11 --> 00:10:14] I can read everything from this pipe.
+[00:10:14 --> 00:10:17] And this process in particular will just be waiting.
+[00:10:17 --> 00:10:21] I won't be doing anything.
+[00:10:21 --> 00:10:34] at this stage, I just want to introduce this idea of a server and a client.
+[00:10:34 --> 00:10:40] the primary purpose of a server is to, as you can imagine, serve.
+[00:10:40 --> 00:10:45] it's to provide some services, answer certain requests.
+[00:10:45 --> 00:10:55] And a server is usually waiting for requests.
+[00:10:55 --> 00:11:03] Now you probably heard this term server a lot with respect to the internet, , contacting the server and the server replies.
+[00:11:03 --> 00:11:04] The server is down.
+[00:11:04 --> 00:11:12] , the server is a computer program, which is waiting for an event to occur and will respond to this.
+[00:11:12 --> 00:11:19] And usually they are running quite often for, , more or less than 24, 7.
+[00:11:19 --> 00:11:25] If you're talking about websites, they are just sitting there waiting for some event.
+[00:11:25 --> 00:11:34] When a client connects to the server.
+[00:11:34 --> 00:11:41] It issues a request for some data, some servers, some operation.
+[00:11:41 --> 00:11:48] And then it receives a reply.
+[00:11:48 --> 00:11:55] if you want to consider this timing diagram between server and client.
+[00:11:55 --> 00:12:01] My server operates indefinitely.
+[00:12:01 --> 00:12:08] And my client at some stage begins to exist in my system.
+[00:12:08 --> 00:12:15] And it will make a request to connect.
+[00:12:15 --> 00:12:16] Okay.
+[00:12:16 --> 00:12:24] And then following that connection, if it is successful, will make some sort of request for a service.
+[00:12:24 --> 00:12:31] And then that server will provide some reply.
+[00:12:31 --> 00:12:32] Okay.
+[00:12:32 --> 00:12:36] after the request is made, the client may be inactive.
+[00:12:36 --> 00:12:38] There is nothing else left to do.
+[00:12:38 --> 00:12:39] It receives a reply.
+[00:12:39 --> 00:12:42] And then it can continue its execution.
+[00:12:42 --> 00:12:46] That's a typical server client relationship.
+[00:12:46 --> 00:12:50] And in this lecture, I've talked about the idea of parent and child.
+[00:12:50 --> 00:12:55] And there is a protocol who is going to write to the pipe first, who is going to read from the pipe.
+[00:12:55 --> 00:12:59] And we can make a kind of synchronous order between them.
+[00:12:59 --> 00:13:05] The client and server has this relationship, which we can now emulate using pipes.
+[00:13:05 --> 00:13:10] I wish to do this now.
+[00:13:10 --> 00:13:17] I'm going to have a file, a function called operate on file.
+[00:13:17 --> 00:13:23] And what I'm going to do is I'm going to make a copy of these two programs.
+[00:13:23 --> 00:13:27] I'm going to make name pipe server.
+[00:13:27 --> 00:13:33] And I'm going to make name pipe client.
+[00:13:33 --> 00:13:34] Okay.
+[00:13:34 --> 00:13:41] And in order to help the situation, we will have two windows open.
+[00:13:41 --> 00:13:45] I'll have the client on the hand side.
+[00:13:45 --> 00:13:49] I'll have the server on the left hand side.
+[00:13:49 --> 00:13:53] let's first establish what we want our behavior.
+[00:13:53 --> 00:13:55] Well, we're not dealing with the internet.
+[00:13:55 --> 00:13:56] we don't have to do with this.
+[00:13:56 --> 00:14:01] It's connect phase, but the server is simply waiting for a request.
+[00:14:01 --> 00:14:07] our server will block here.
+[00:14:07 --> 00:14:11] And read from this named pipe.
+[00:14:11 --> 00:14:13] What is the current request?
+[00:14:13 --> 00:14:15] that defines our server behavior.
+[00:14:15 --> 00:14:22] for our server, we are opening only the read end of this pipe.
+[00:14:22 --> 00:14:26] we don't need this one.
+[00:14:26 --> 00:14:27] Okay.
+[00:14:27 --> 00:14:30] we're going to read everything from this named pipe.
+[00:14:30 --> 00:14:32] And then we're going to print out what this message is.
+[00:14:32 --> 00:14:40] And this loop will ensure that we just repeat forever.
+[00:14:41 --> 00:14:45] this kind of server is known as an echo server.
+[00:14:45 --> 00:14:48] It simply provides a response.
+[00:14:48 --> 00:14:50] If I send the message.
+[00:14:50 --> 00:14:54] Hello, it will reflect.
+[00:14:54 --> 00:14:58] Hello back to this client.
+[00:14:58 --> 00:15:01] at the moment, I just want to set up the first phase,
+[00:15:01 --> 00:15:05] which is let's just receive something on this name pipe, print out this message.
+[00:15:06 --> 00:15:08] And we will continue indefinitely.
+[00:15:08 --> 00:15:10] We won't be terminated.
+[00:15:10 --> 00:15:12] that's the server far.
+[00:15:12 --> 00:15:15] And let's look at the client.
+[00:15:15 --> 00:15:18] The client does not require reading from this pipe.
+[00:15:18 --> 00:15:22] what we can do is.
+[00:15:22 --> 00:15:24] Comment out this code that we don't need.
+[00:15:24 --> 00:15:29] We've got the end of the pipe, which is this shared name.
+[00:15:29 --> 00:15:34] We've got some timer, which I also don't need.
+[00:15:34 --> 00:15:38] And in this case, we want to send information on the pipe.
+[00:15:38 --> 00:15:41] the message I want to send.
+[00:15:44 --> 00:15:49] Let's call it hello from client.
+[00:15:49 --> 00:15:55] Okay, and then we've got our five two.
+[00:15:56 --> 00:16:00] SGM then message.
+[00:16:00 --> 00:16:08] Okay, and we want to know and return is equal to .
+[00:16:08 --> 00:16:12] And the pipe that we wish to be writing to is FD.
+[00:16:12 --> 00:16:16] And we are writing the data, which is message.
+[00:16:16 --> 00:16:19] And the amount of data we're writing is exactly then.
+[00:16:19 --> 00:16:23] And now we can.
+[00:16:23 --> 00:16:26] We can ask this question.
+[00:16:26 --> 00:16:35] If N written is less than equal to zero, okay, there's some sort of error that happened.
+[00:16:42 --> 00:16:52] Okay, and probably as a client, I'd to say the message was sent.
+[00:16:52 --> 00:16:59] .
+[00:16:59 --> 00:17:06] .
+[00:17:06 --> 00:17:18] I'm just formatting this message I can say, okay.
+[00:17:18 --> 00:17:25] The message was sent and write N red bytes of landguides.
+[00:17:25 --> 00:17:32] And the client once it is finished, we no longer need to do anything.
+[00:17:32 --> 00:17:45] And because we have only one shared pipe, only one of these processes needs to be constructing it.
+[00:17:45 --> 00:17:50] And only one of these processes needs to remove it.
+[00:17:50 --> 00:17:55] from the client perspective, I simply have the name of the pipe.
+[00:17:55 --> 00:17:59] And then I perform operations on the pipe itself.
+[00:17:59 --> 00:18:02] Okay, and then I simply quit the server.
+[00:18:02 --> 00:18:08] However, is first tasked with constructing the pipe, then reading from the pipe,
+[00:18:08 --> 00:18:11] waiting for some particular input in an infinite loop.
+[00:18:11 --> 00:18:17] And then after that infinite loop has completed, we will now unlink from this one.
+[00:18:17 --> 00:18:25] before instead of making this repeat forever, how about I make it time out after a certain time.
+[00:18:25 --> 00:18:29] And in order for me to do that, I need to think a little bit.
+[00:18:29 --> 00:18:31] Let's see.
+[00:18:31 --> 00:18:40] I could use get time of day.
+[00:18:40 --> 00:18:48] this will give me back a particular time in seconds since 1970.
+[00:18:48 --> 00:18:53] And I can use that as a time out function, which is that's fun part about see.
+[00:18:53 --> 00:18:57] There's no easy way to do time outs.
+[00:18:57 --> 00:19:00] struct.
+[00:19:00 --> 00:19:05] I'm going to start.
+[00:19:05 --> 00:19:08] Time.
+[00:19:08 --> 00:19:13] We can do it yet time of day.
+[00:19:13 --> 00:19:16] Passing the address of this structure.
+[00:19:16 --> 00:19:21] All the time zone we can provide null.
+[00:19:21 --> 00:19:28] I don't need this watch anymore.
+[00:19:28 --> 00:19:31] And.
+[00:19:31 --> 00:19:32] Yep, that's okay.
+[00:19:32 --> 00:19:33] We provide that now.
+[00:19:33 --> 00:19:35] We've already had it here.
+[00:19:35 --> 00:19:38] Okay, that's the start time.
+[00:19:38 --> 00:19:48] And then the end time.
+[00:19:48 --> 00:19:50] We have.
+[00:19:50 --> 00:19:55] Get time of day.
+[00:19:55 --> 00:19:58] And time now.
+[00:19:58 --> 00:20:02] And here's what we do our calculation.
+[00:20:02 --> 00:20:06] And what kind of type should I use to describe this?
+[00:20:06 --> 00:20:09] We have time T.
+[00:20:09 --> 00:20:11] Time T.
+[00:20:11 --> 00:20:14] Oh, I do remember there was a specific.
+[00:20:14 --> 00:20:23] A specific type just for differing time.
+[00:20:23 --> 00:20:25] Okay.
+[00:20:25 --> 00:20:31] Let's just let's just go with this one.
+[00:20:31 --> 00:20:37] And time T.
+[00:20:37 --> 00:20:41] And time TV sec.
+[00:20:41 --> 00:20:44] Minus stop time.
+[00:20:44 --> 00:20:46] TV sec.
+[00:20:46 --> 00:20:55] Okay, this gives us if the diff is greater than just to say 15 seconds.
+[00:20:55 --> 00:20:57] Break.
+[00:20:57 --> 00:21:01] This is otherwise an infinite loop.
+[00:21:01 --> 00:21:03] And have I forgotten any header file?
+[00:21:03 --> 00:21:09] I need sys time this one.
+[00:21:09 --> 00:21:14] And include.
+[00:21:14 --> 00:21:17] H.
+[00:21:17 --> 00:21:18] Okay, great.
+[00:21:18 --> 00:21:23] And now we can begin this lovely process of compilation.
+[00:21:23 --> 00:21:26] Let's see what it likes and what it doesn't .
+[00:21:26 --> 00:21:27] unused variable.
+[00:21:27 --> 00:21:29] That's probably okay.
+[00:21:29 --> 00:21:32] And for our client.
+[00:21:32 --> 00:21:39] And in this case, we do want to create separate executables because we're going to have server and clients.
+[00:21:39 --> 00:21:42] Let's do minus over.
+[00:21:42 --> 00:21:45] Okay, minus a client and.
+[00:21:45 --> 00:21:46] this.
+[00:21:46 --> 00:21:51] And this one doesn't N red.
+[00:21:51 --> 00:21:52] N red, undeclared.
+[00:21:52 --> 00:22:12] And this of course I have written not red.
+[00:22:12 --> 00:22:13] Seems that.
+[00:22:13 --> 00:22:15] That's quite helpful.
+[00:22:15 --> 00:22:19] Alright, that's great.
+[00:22:19 --> 00:22:25] Now, if I was to run the client, let's just take a look at your directory.
+[00:22:25 --> 00:22:28] We have a client.
+[00:22:28 --> 00:22:31] We have a server executable.
+[00:22:31 --> 00:22:37] If I was to run the client, what would happen is I open this only negative one.
+[00:22:37 --> 00:22:38] Open for failed.
+[00:22:38 --> 00:22:41] And I such file directory fail to use pipe.
+[00:22:41 --> 00:22:45] my program has some built in error checking, which says.
+[00:22:45 --> 00:22:48] Pass the name with this pipe.
+[00:22:48 --> 00:22:51] And then if the result is not equal to zero, then that I failed.
+[00:22:51 --> 00:22:56] And within this, I've attempted to open this this file.
+[00:22:56 --> 00:23:00] I've checked what is the file that's scripted given open for has failed.
+[00:23:00 --> 00:23:04] Okay, that's what I've got here.
+[00:23:04 --> 00:23:07] And that's clearly not what I wanted.
+[00:23:07 --> 00:23:11] , , this is the first printout, the second printout, and the third printout was after returning from function.
+[00:23:12 --> 00:23:17] this program won't work unless a name to pipe exists first.
+[00:23:17 --> 00:23:21] what we'll do is we will begin our server.
+[00:23:21 --> 00:23:24] And now taking a look at our directory.
+[00:23:24 --> 00:23:27] Now we do have our pipe here.
+[00:23:27 --> 00:23:30] Okay, and it does have the permission set read and write.
+[00:23:30 --> 00:23:37] And now I can have my client, which is attempting to open the pipe and to the pipe.
+[00:23:38 --> 00:23:43] here we have the pipe.
+[00:23:43 --> 00:23:49] message hello from client was sent and written 18 of 18 bytes.
+[00:23:49 --> 00:23:56] And then on the server side, I have message Len 18 hello from client.
+[00:23:56 --> 00:23:58] that's a successful test.
+[00:23:58 --> 00:24:04] We've used a named pipe between two different processes.
+[00:24:04 --> 00:24:09] we could move on to our echo server model.
+[00:24:09 --> 00:24:13] in this echo server model.
+[00:24:13 --> 00:24:19] The server will live probably a little bit longer than this.
+[00:24:19 --> 00:24:25] And what we want to do after we receive a message.
+[00:24:25 --> 00:24:27] Is we want to send a message back.
+[00:24:27 --> 00:24:33] now I do want a pipe for sending a message back.
+[00:24:33 --> 00:24:37] And what I'll do is I'll have a another pipe.
+[00:24:37 --> 00:24:41] I don't want to use the same pipe for both reading while it is possible.
+[00:24:41 --> 00:24:44] It's not ideal because we have to synchronize very carefully.
+[00:24:44 --> 00:24:47] .
+[00:24:47 --> 00:24:50] I'll just call it to client.
+[00:24:50 --> 00:24:56] And here we're going to open a .
+[00:24:56 --> 00:25:00] File descriptor.
+[00:25:00 --> 00:25:03] It's going to be only.
+[00:25:03 --> 00:25:08] I will skip this, which is just a timing function.
+[00:25:08 --> 00:25:13] And here I will now be able to perform my operations.
+[00:25:13 --> 00:25:19] And you may be starting to see some patterns emerging here every time I perform some activity.
+[00:25:19 --> 00:25:23] I have to do the following.
+[00:25:23 --> 00:25:27] I still need to check.
+[00:25:27 --> 00:25:30] The size of the message.
+[00:25:30 --> 00:25:35] Need to have this and written number.
+[00:25:35 --> 00:25:39] Back here.
+[00:25:39 --> 00:25:46] the message I'm going to write back to the client should be contents of this buffer.
+[00:25:46 --> 00:25:51] And it should be the amount of information that I read into that buffer.
+[00:25:51 --> 00:25:57] this one is not too difficult.
+[00:25:57 --> 00:26:10] And we should always check have I been successful.
+[00:26:10 --> 00:26:19] I failed to write and let's just say we break from our current routine.
+[00:26:19 --> 00:26:22] Okay.
+[00:26:22 --> 00:26:29] one thing I just realized is this server will block on read and then stop here.
+[00:26:29 --> 00:26:33] And the start time would have been captured before the loop was entered.
+[00:26:33 --> 00:26:37] that means the time is ticking and every time we're blocking that time.
+[00:26:37 --> 00:26:41] Well, we retain the same time value, but the clock is changing.
+[00:26:41 --> 00:26:47] if 15 seconds has passed after the first read, this will definitely trigger to be true.
+[00:26:47 --> 00:26:49] And then we'll break the loop.
+[00:26:49 --> 00:26:52] this one time out and break the loop.
+[00:26:52 --> 00:26:55] It will just continue to block on this function.
+[00:26:55 --> 00:26:58] that's just something to keep in mind there.
+[00:26:58 --> 00:27:01] Otherwise, we'll be able to perform all these operations.
+[00:27:01 --> 00:27:07] No problem.
+[00:27:07 --> 00:27:08] All .
+[00:27:08 --> 00:27:09] that's our server.
+[00:27:09 --> 00:27:11] We are now receiving a message and writing back.
+[00:27:11 --> 00:27:16] And then we are looping around within a 15 second interval.
+[00:27:16 --> 00:27:26] For our function to work, we now need the name of the pipe that exists for the client.
+[00:27:26 --> 00:27:34] I'll need to have an additional file using MK FIFA.
+[00:27:34 --> 00:27:42] And what I'll do is the very naughty thing of copying in Pacing.
+[00:27:43 --> 00:27:47] I'm going to call this one to client.
+[00:27:47 --> 00:27:52] if you're interacting with this particular server.
+[00:27:52 --> 00:27:55] these are the permissions for the client.
+[00:27:55 --> 00:28:00] And I should give this another name.
+[00:28:00 --> 00:28:05] This is two client file name.
+[00:28:05 --> 00:28:07] Using the same permission set.
+[00:28:07 --> 00:28:14] If we are unable to construct this client pipe, then of course, everything should fail.
+[00:28:14 --> 00:28:19] if the server has set up successfully, then we should be able to have two pipes running.
+[00:28:19 --> 00:28:21] Wait on this.
+[00:28:21 --> 00:28:24] One pipe and then back to a different pipe.
+[00:28:24 --> 00:28:27] When the program has finished,
+[00:28:27 --> 00:28:30] we should free all of our resources.
+[00:28:30 --> 00:28:32] And this is why I've written in this way.
+[00:28:32 --> 00:28:34] we can clearly see I've created two pipes.
+[00:28:34 --> 00:28:35] I need to clear two pipes.
+[00:28:35 --> 00:28:38] And then there's a whole lot of logic in between.
+[00:28:38 --> 00:28:48] It always helps to factor out functions in this way that you can separate the initialization and tear down of your functions and resources.
+[00:28:48 --> 00:28:50] Okay, we've passed this into client.
+[00:28:50 --> 00:28:53] I've opened to client as read only mode.
+[00:28:53 --> 00:28:55] Okay, and if this was successful, be okay.
+[00:28:55 --> 00:28:56] Otherwise, return.
+[00:28:56 --> 00:29:01] I've started the timer or something that resembles the timer captured the time.
+[00:29:01 --> 00:29:04] Read from the buffer to this other buffer.
+[00:29:04 --> 00:29:07] And then I should be able to complete.
+[00:29:07 --> 00:29:11] And what I'll do for this.
+[00:29:11 --> 00:29:13] Server.
+[00:29:13 --> 00:29:17] Let's say print.
+[00:29:17 --> 00:29:23] Message reflected.
+[00:29:23 --> 00:29:25] And , I could do things .
+[00:29:25 --> 00:29:30] At a particular time or , whatever I may need.
+[00:29:30 --> 00:29:32] Okay, that's a server done.
+[00:29:32 --> 00:29:38] As for the client, now we are going to.
+[00:29:38 --> 00:29:43] Require the same.
+[00:29:43 --> 00:29:45] And I'm going to use different.
+[00:29:45 --> 00:29:51] File name from server.
+[00:29:51 --> 00:29:58] in this case, we want to open.
+[00:29:58 --> 00:30:01] From server.
+[00:30:01 --> 00:30:02] That should be okay.
+[00:30:02 --> 00:30:04] we got read file descriptor.
+[00:30:04 --> 00:30:07] We now have a file which we've constructed.
+[00:30:07 --> 00:30:09] We've sent something to the server.
+[00:30:09 --> 00:30:12] And now the task is to read back.
+[00:30:12 --> 00:30:14] Something that we received from the server.
+[00:30:14 --> 00:30:16] I can do the same thing.
+[00:30:16 --> 00:30:17] Server.
+[00:30:17 --> 00:30:19] One two eight.
+[00:30:19 --> 00:30:21] And I can do.
+[00:30:21 --> 00:30:24] This one here.
+[00:30:24 --> 00:30:26] I will paste.
+[00:30:26 --> 00:30:29] And unfortunately the.
+[00:30:29 --> 00:30:31] Line numbers will be.
+[00:30:31 --> 00:30:32] Agen in.
+[00:30:32 --> 00:30:35] just check all your lines when you do paste.
+[00:30:35 --> 00:30:40] Because lots of things can go wrong with a copy and paste.
+[00:30:40 --> 00:30:44] In this case, I have to construct a new variable and read.
+[00:30:44 --> 00:30:47] Which hasn't been, which doesn't exist before.
+[00:30:47 --> 00:30:50] I am reading into this buffer.
+[00:30:50 --> 00:30:53] Maximum 128 and ready to listen zero.
+[00:30:53 --> 00:30:57] And then we have some more helpful message message received.
+[00:30:57 --> 00:30:59] On server.
+[00:30:59 --> 00:31:01] One.
+[00:31:01 --> 00:31:04] Okay, and we've got N red and buffer.
+[00:31:04 --> 00:31:07] Okay, our client.
+[00:31:07 --> 00:31:10] As opened two files.
+[00:31:10 --> 00:31:15] And when we open two files, we should also have a corresponding closing of two files.
+[00:31:15 --> 00:31:18] And on me.
+[00:31:18 --> 00:31:22] We've got read FD.
+[00:31:22 --> 00:31:28] And we should have that same thing in our server.
+[00:31:28 --> 00:31:40] And this is why C programming takes quite a long time because we have to remember.
+[00:31:40 --> 00:31:43] To clean up everything.
+[00:31:43 --> 00:31:49] And this is why it's also a bit of a security risk because if we fail to clean up, then things can go wrong.
+[00:31:50 --> 00:31:55] And of course, we need to provide the name of this.
+[00:31:55 --> 00:31:59] Client only.
+[00:31:59 --> 00:32:02] And we've called it to client pipe.
+[00:32:02 --> 00:32:05] I'll use.
+[00:32:05 --> 00:32:10] Very nice name.
+[00:32:10 --> 00:32:12] Very tempted to change it.
+[00:32:12 --> 00:32:15] this name has to be shared.
+[00:32:15 --> 00:32:29] If I really wanted to make this nicer, which probably I should.
+[00:32:29 --> 00:32:39] I can replace to client with reply.
+[00:32:39 --> 00:32:42] Okay, I could call it the reply pipe.
+[00:32:42 --> 00:32:45] I can call it the request pipe.
+[00:32:45 --> 00:32:48] Okay, that's a much more better convention for naming.
+[00:32:48 --> 00:32:53] likewise here.
+[00:32:53 --> 00:32:56] For the same thing to client.
+[00:32:56 --> 00:32:58] Change to reply.
+[00:32:58 --> 00:33:03] And you always have to be careful with a global replacement.
+[00:33:03 --> 00:33:06] And this is request.
+[00:33:06 --> 00:33:09] let's just check what we've done here.
+[00:33:09 --> 00:33:11] I've got two file names.
+[00:33:11 --> 00:33:13] I don't need to construct any fifos.
+[00:33:13 --> 00:33:14] That's okay.
+[00:33:14 --> 00:33:17] I provided the request.
+[00:33:17 --> 00:33:21] I can change here.
+[00:33:21 --> 00:33:25] I should probably call this request.
+[00:33:25 --> 00:33:31] F name or something more appropriate.
+[00:33:31 --> 00:33:34] And you can see the client and the server mirror.
+[00:33:34 --> 00:33:45] this kind of implementation.
+[00:33:45 --> 00:33:49] that takes care of this function all nice and tidy.
+[00:33:49 --> 00:33:51] I don't need this.
+[00:33:51 --> 00:33:55] Fifo.
+[00:33:55 --> 00:33:57] And these comments probably can remain.
+[00:33:57 --> 00:34:00] I don't need to sleep.
+[00:34:00 --> 00:34:01] That's nice.
+[00:34:01 --> 00:34:05] And on this side.
+[00:34:05 --> 00:34:10] I've got something that's called from server, which is probably okay.
+[00:34:10 --> 00:34:12] And we're reading service.
+[00:34:12 --> 00:34:20] both of these fast disk.
+[00:34:20 --> 00:34:23] And let's just try the compilation.
+[00:34:23 --> 00:34:25] we've got a few problems.
+[00:34:25 --> 00:34:29] We've got a redefinition of red on 83.
+[00:34:29 --> 00:34:33] And that's because I'm making the fifo to us.
+[00:34:33 --> 00:34:35] Yep.
+[00:34:35 --> 00:34:36] And this replies.
+[00:34:36 --> 00:34:40] Okay.
+[00:34:40 --> 00:34:43] And this one doesn't .
+[00:34:43 --> 00:34:49] Message reflected from client, which I failed to provide a buffer.
+[00:34:49 --> 00:34:56] You should always look at the compiler error messages.
+[00:34:56 --> 00:34:58] I've enabled all warnings.
+[00:34:58 --> 00:35:01] that means now my server is safe.
+[00:35:01 --> 00:35:03] the server has up and running.
+[00:35:03 --> 00:35:10] Okay. And for our files, we now have a reply pipe and a request pipe.
+[00:35:10 --> 00:35:13] And for my client, let's just check the compilation.
+[00:35:13 --> 00:35:16] let's go back to one of our GCC commands.
+[00:35:16 --> 00:35:19] And make sure all warnings are enabled.
+[00:35:19 --> 00:35:21] Okay. we've got a few issues.
+[00:35:21 --> 00:35:23] we've got.
+[00:35:23 --> 00:35:26] This one's complaining about sst instead of an int.
+[00:35:26 --> 00:35:28] That's probably okay.
+[00:35:28 --> 00:35:30] we can always change it to LD.
+[00:35:30 --> 00:35:31] That's helpful.
+[00:35:31 --> 00:35:32] And this one as well.
+[00:35:32 --> 00:35:33] Same one.
+[00:35:33 --> 00:35:34] But this one.
+[00:35:34 --> 00:35:35] It doesn't 48.
+[00:35:35 --> 00:35:39] We're probably not in a loop.
+[00:35:39 --> 00:35:41] let's go to line 48.
+[00:35:41 --> 00:35:44] if N red is less than equal to zero, what do I want to do?
+[00:35:44 --> 00:35:50] Well, I could just say return to something has failed.
+[00:35:50 --> 00:35:59] I do want to specify some fairly message fail to read from pipe.
+[00:35:59 --> 00:36:05] And I could say specifically reply.
+[00:36:05 --> 00:36:09] Okay. this.
+[00:36:09 --> 00:36:11] Current time is 10.49.
+[00:36:11 --> 00:36:12] this client should be.

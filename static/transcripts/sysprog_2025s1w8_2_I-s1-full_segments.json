@@ -1,0 +1,2972 @@
+[
+  {
+    "id": 0,
+    "start_time": 0.0,
+    "end_time": 19.8,
+    "text": "We have previously seen that we can use pipes between parent and child."
+  },
+  {
+    "id": 1,
+    "start_time": 19.8,
+    "end_time": 26.8,
+    "text": "I have my parent, parent moves along at some stage."
+  },
+  {
+    "id": 2,
+    "start_time": 26.8,
+    "end_time": 30.8,
+    "text": "I will call pipe on the south of file descriptors."
+  },
+  {
+    "id": 3,
+    "start_time": 30.8,
+    "end_time": 35.8,
+    "text": "And then at another stage I will fork."
+  },
+  {
+    "id": 4,
+    "start_time": 35.8,
+    "end_time": 38.8,
+    "text": "These file descriptors will be duplicated."
+  },
+  {
+    "id": 5,
+    "start_time": 38.8,
+    "end_time": 45.8,
+    "text": "And then I have both parent and child process that can read and write between two ends of this pipe."
+  },
+  {
+    "id": 6,
+    "start_time": 46.8,
+    "end_time": 51.8,
+    "text": "And this is of course one directional pipe."
+  },
+  {
+    "id": 7,
+    "start_time": 51.8,
+    "end_time": 57.8,
+    "text": "that works well when the processes have been defined in this way by forking."
+  },
+  {
+    "id": 8,
+    "start_time": 57.8,
+    "end_time": 60.8,
+    "text": "But we can also have two independent processes."
+  },
+  {
+    "id": 9,
+    "start_time": 60.8,
+    "end_time": 65.8,
+    "text": "Let's call it process A, process B."
+  },
+  {
+    "id": 10,
+    "start_time": 66.8,
+    "end_time": 72.8,
+    "text": "And if they wanted to use a pipe, but they didn't want to use a regular file,"
+  },
+  {
+    "id": 11,
+    "start_time": 72.8,
+    "end_time": 78.8,
+    "text": "what they could do is they could create a pipe, similar pipe."
+  },
+  {
+    "id": 12,
+    "start_time": 78.8,
+    "end_time": 82.8,
+    "text": "But this time they're going to give it a name."
+  },
+  {
+    "id": 13,
+    "start_time": 82.8,
+    "end_time": 86.8,
+    "text": "this is a named pipe."
+  },
+  {
+    "id": 14,
+    "start_time": 86.8,
+    "end_time": 93.8,
+    "text": "And what will happen is process A will open this specific file."
+  },
+  {
+    "id": 15,
+    "start_time": 93.8,
+    "end_time": 96.8,
+    "text": "It's a name, some other parameters."
+  },
+  {
+    "id": 16,
+    "start_time": 96.8,
+    "end_time": 104.8,
+    "text": "And then it could do things to this pipe, such as write, some information."
+  },
+  {
+    "id": 17,
+    "start_time": 104.8,
+    "end_time": 113.8,
+    "text": "Process B can also open the same pipe for a given name."
+  },
+  {
+    "id": 18,
+    "start_time": 113.8,
+    "end_time": 122.8,
+    "text": "And then it can perform some operations such as, I have a flat area here, such as reading."
+  },
+  {
+    "id": 19,
+    "start_time": 123.8,
+    "end_time": 126.8,
+    "text": "From this particular pipe."
+  },
+  {
+    "id": 20,
+    "start_time": 126.8,
+    "end_time": 131.8,
+    "text": "And of course, if it's reading and it's blocking, then we won't be able to do anything further."
+  },
+  {
+    "id": 21,
+    "start_time": 131.8,
+    "end_time": 139.8,
+    "text": "we will still be able to use a pipe between two, let's call them unanimized processes."
+  },
+  {
+    "id": 22,
+    "start_time": 139.8,
+    "end_time": 150.8,
+    "text": "If we have this common name, and we can set this up in our system quite easily."
+  },
+  {
+    "id": 23,
+    "start_time": 150.8,
+    "end_time": 153.8,
+    "text": "Using this command here, mkfifu."
+  },
+  {
+    "id": 24,
+    "start_time": 153.8,
+    "end_time": 160.8,
+    "text": "And this is the unix command, what I wanted was the system one."
+  },
+  {
+    "id": 25,
+    "start_time": 160.8,
+    "end_time": 171.8,
+    "text": "in the C library, we have a function which can construct this named pipe that can be shared between two processes."
+  },
+  {
+    "id": 26,
+    "start_time": 171.8,
+    "end_time": 174.8,
+    "text": "this is our construction."
+  },
+  {
+    "id": 27,
+    "start_time": 174.8,
+    "end_time": 178.8,
+    "text": "We need to call mkfifu, give it a path name."
+  },
+  {
+    "id": 28,
+    "start_time": 178.8,
+    "end_time": 182.8,
+    "text": "And then it'll be creating a special file on the file system."
+  },
+  {
+    "id": 29,
+    "start_time": 182.8,
+    "end_time": 187.8,
+    "text": "this is a file which may not be written to disk that may reside in memory."
+  },
+  {
+    "id": 30,
+    "start_time": 187.8,
+    "end_time": 195.8,
+    "text": "it'll be much better than our regular file, which relies on disk access and with perform operations such as read or write."
+  },
+  {
+    "id": 31,
+    "start_time": 195.8,
+    "end_time": 197.8,
+    "text": "The buffers have to be flushed."
+  },
+  {
+    "id": 32,
+    "start_time": 197.8,
+    "end_time": 202.8,
+    "text": "And that requires invoking a device driver for a block device, which can take extra time."
+  },
+  {
+    "id": 33,
+    "start_time": 202.8,
+    "end_time": 209.8,
+    "text": "mkfifu is quite nice to make a pipe between two independent processes."
+  },
+  {
+    "id": 34,
+    "start_time": 209.8,
+    "end_time": 215.8,
+    "text": "The only thing that we have to define is a, oops, sorry here, a shared file name."
+  },
+  {
+    "id": 35,
+    "start_time": 215.8,
+    "end_time": 220.8,
+    "text": "And let's not forget the most important thing."
+  },
+  {
+    "id": 36,
+    "start_time": 220.8,
+    "end_time": 222.8,
+    "text": "A protocol."
+  },
+  {
+    "id": 37,
+    "start_time": 222.8,
+    "end_time": 234.8,
+    "text": "even if we have these two processes opening this shared pipe, there has to be some mechanism by which process a, send some data onto the pipe."
+  },
+  {
+    "id": 38,
+    "start_time": 234.8,
+    "end_time": 240.8,
+    "text": "And that will be received by process B. And then there'll be some activity that follows this."
+  },
+  {
+    "id": 39,
+    "start_time": 240.8,
+    "end_time": 251.8,
+    "text": "one may imagine a state transition diagram whereby different sets of actions can lead to different states."
+  },
+  {
+    "id": 40,
+    "start_time": 252.8,
+    "end_time": 258.8,
+    "text": "And this process can be repeated or variations can be made and depends on what actions we take."
+  },
+  {
+    "id": 41,
+    "start_time": 258.8,
+    "end_time": 266.8,
+    "text": "in the initial state, maybe process a, send some data on the pipe and then process a, and has this particular state."
+  },
+  {
+    "id": 42,
+    "start_time": 266.8,
+    "end_time": 276.8,
+    "text": "And then process a is also reading other forms of input and then changes its state to some other state, depending on that input."
+  },
+  {
+    "id": 43,
+    "start_time": 276.8,
+    "end_time": 280.8,
+    "text": "And it may revolve around to the same kind of state."
+  },
+  {
+    "id": 44,
+    "start_time": 280.8,
+    "end_time": 287.8,
+    "text": "you still need some way of defining how these processes are going to use these shared files."
+  },
+  {
+    "id": 45,
+    "start_time": 287.8,
+    "end_time": 293.8,
+    "text": "what I have is a very small example of this named pipe."
+  },
+  {
+    "id": 46,
+    "start_time": 293.8,
+    "end_time": 299.8,
+    "text": "And what I'll do is I'll just start with this main function. I've written a bit before it."
+  },
+  {
+    "id": 47,
+    "start_time": 299.8,
+    "end_time": 304.8,
+    "text": "And we have the named pipe."
+  },
+  {
+    "id": 48,
+    "start_time": 305.8,
+    "end_time": 309.8,
+    "text": "We have a name that we can choose. This could be any."
+  },
+  {
+    "id": 49,
+    "start_time": 309.8,
+    "end_time": 316.8,
+    "text": "Ball name. It doesn't really matter. I could call it my pipe dot text."
+  },
+  {
+    "id": 50,
+    "start_time": 316.8,
+    "end_time": 320.8,
+    "text": "But it's not an actual text file, but any file name is fine."
+  },
+  {
+    "id": 51,
+    "start_time": 320.8,
+    "end_time": 326.8,
+    "text": "And then we also need specify permissions. How should this pipe be used by this user?"
+  },
+  {
+    "id": 52,
+    "start_time": 326.8,
+    "end_time": 333.8,
+    "text": "And in this case, I can say, well, it's read and write access. this user based permission, 0600."
+  },
+  {
+    "id": 53,
+    "start_time": 333.8,
+    "end_time": 337.8,
+    "text": "OK, this permission is only for this user."
+  },
+  {
+    "id": 54,
+    "start_time": 337.8,
+    "end_time": 342.8,
+    "text": "the current user of my system is."
+  },
+  {
+    "id": 55,
+    "start_time": 342.8,
+    "end_time": 347.8,
+    "text": "User."
+  },
+  {
+    "id": 56,
+    "start_time": 347.8,
+    "end_time": 352.8,
+    "text": "OK, this is the current user. that means when I set up this pipe."
+  },
+  {
+    "id": 57,
+    "start_time": 352.8,
+    "end_time": 358.8,
+    "text": "I've got privilege access for read and write, but my groups and my other people in the file system."
+  },
+  {
+    "id": 58,
+    "start_time": 358.8,
+    "end_time": 365.8,
+    "text": "No, do not have that one. if I take a look at my group listing."
+  },
+  {
+    "id": 59,
+    "start_time": 365.8,
+    "end_time": 369.8,
+    "text": "Here are the if you users and here are the actual groups."
+  },
+  {
+    "id": 60,
+    "start_time": 369.8,
+    "end_time": 372.8,
+    "text": "And there is an audio group called."
+  },
+  {
+    "id": 61,
+    "start_time": 372.8,
+    "end_time": 377.8,
+    "text": "Well, there is an audio group. And in that audio group, it contains both pulse and John."
+  },
+  {
+    "id": 62,
+    "start_time": 377.8,
+    "end_time": 380.8,
+    "text": "this is the users that belong to this group."
+  },
+  {
+    "id": 63,
+    "start_time": 380.8,
+    "end_time": 382.8,
+    "text": "I could also specify."
+  },
+  {
+    "id": 64,
+    "start_time": 382.8,
+    "end_time": 385.8,
+    "text": "What are the permissions for the groups."
+  },
+  {
+    "id": 65,
+    "start_time": 385.8,
+    "end_time": 388.8,
+    "text": "That are going to use this pipe, this name pipe."
+  },
+  {
+    "id": 66,
+    "start_time": 388.8,
+    "end_time": 392.8,
+    "text": "And then I've got other, which is anyone on the system. What kind of privileges do they have access?"
+  },
+  {
+    "id": 67,
+    "start_time": 392.8,
+    "end_time": 397.8,
+    "text": "Can I do read only or write only or no access?"
+  },
+  {
+    "id": 68,
+    "start_time": 397.8,
+    "end_time": 402.8,
+    "text": "our command is very straightforward. We simply invoke MK FIFA."
+  },
+  {
+    "id": 69,
+    "start_time": 402.8,
+    "end_time": 405.8,
+    "text": "And then we perform operations on this file."
+  },
+  {
+    "id": 70,
+    "start_time": 405.8,
+    "end_time": 411.8,
+    "text": "And just for now, I'm going to."
+  },
+  {
+    "id": 71,
+    "start_time": 411.8,
+    "end_time": 414.8,
+    "text": "I just ignore this."
+  },
+  {
+    "id": 72,
+    "start_time": 414.8,
+    "end_time": 420.8,
+    "text": "And I'll just sleep."
+  },
+  {
+    "id": 73,
+    "start_time": 420.8,
+    "end_time": 429.8,
+    "text": "Okay, sleeping for five seconds. Maybe I'll make it 15 seconds."
+  },
+  {
+    "id": 74,
+    "start_time": 429.8,
+    "end_time": 432.8,
+    "text": "Okay."
+  },
+  {
+    "id": 75,
+    "start_time": 432.8,
+    "end_time": 436.8,
+    "text": "let's build this name five."
+  },
+  {
+    "id": 76,
+    "start_time": 436.8,
+    "end_time": 439.8,
+    "text": "Okay, this."
+  },
+  {
+    "id": 77,
+    "start_time": 439.8,
+    "end_time": 442.8,
+    "text": "And we are sleeping for 15 seconds."
+  },
+  {
+    "id": 78,
+    "start_time": 442.8,
+    "end_time": 445.8,
+    "text": "And the reason for that is I wanted to show you."
+  },
+  {
+    "id": 79,
+    "start_time": 445.8,
+    "end_time": 447.8,
+    "text": "This actual file that's been constructed."
+  },
+  {
+    "id": 80,
+    "start_time": 447.8,
+    "end_time": 450.8,
+    "text": "this one is a pipe file."
+  },
+  {
+    "id": 81,
+    "start_time": 450.8,
+    "end_time": 452.8,
+    "text": "It's a non-regular file."
+  },
+  {
+    "id": 82,
+    "start_time": 452.8,
+    "end_time": 455.8,
+    "text": "And it only exists."
+  },
+  {
+    "id": 83,
+    "start_time": 455.8,
+    "end_time": 457.8,
+    "text": "All that 15 seconds."
+  },
+  {
+    "id": 84,
+    "start_time": 457.8,
+    "end_time": 459.8,
+    "text": "."
+  },
+  {
+    "id": 85,
+    "start_time": 459.8,
+    "end_time": 461.8,
+    "text": "I think the 15 seconds expired."
+  },
+  {
+    "id": 86,
+    "start_time": 461.8,
+    "end_time": 462.8,
+    "text": "Yes, it expired."
+  },
+  {
+    "id": 87,
+    "start_time": 462.8,
+    "end_time": 464.8,
+    "text": "we don't have it anymore."
+  },
+  {
+    "id": 88,
+    "start_time": 464.8,
+    "end_time": 467.8,
+    "text": "If I was to run this again."
+  },
+  {
+    "id": 89,
+    "start_time": 467.8,
+    "end_time": 469.8,
+    "text": "Okay, I have my pipe here."
+  },
+  {
+    "id": 90,
+    "start_time": 469.8,
+    "end_time": 470.8,
+    "text": "Every two seconds."
+  },
+  {
+    "id": 91,
+    "start_time": 470.8,
+    "end_time": 474.8,
+    "text": "This command will refresh and run that one."
+  },
+  {
+    "id": 92,
+    "start_time": 474.8,
+    "end_time": 479.8,
+    "text": "the pipe will continue to exist as long as I'm running this program."
+  },
+  {
+    "id": 93,
+    "start_time": 479.8,
+    "end_time": 483.8,
+    "text": "And the reason for that is because I have, as you can see,"
+  },
+  {
+    "id": 94,
+    "start_time": 483.8,
+    "end_time": 484.8,
+    "text": "this dispute."
+  },
+  {
+    "id": 95,
+    "start_time": 484.8,
+    "end_time": 488.8,
+    "text": "As I have this further command, which unlinks that particular name."
+  },
+  {
+    "id": 96,
+    "start_time": 488.8,
+    "end_time": 491.8,
+    "text": "this is yet another resource that was allocated."
+  },
+  {
+    "id": 97,
+    "start_time": 491.8,
+    "end_time": 496.8,
+    "text": "And as good practice, we want to make sure this is removed."
+  },
+  {
+    "id": 98,
+    "start_time": 496.8,
+    "end_time": 501.8,
+    "text": "question, what happens if I run this program,"
+  },
+  {
+    "id": 99,
+    "start_time": 501.8,
+    "end_time": 504.8,
+    "text": "I create this pipe and I don't remove it."
+  },
+  {
+    "id": 100,
+    "start_time": 504.8,
+    "end_time": 509.8,
+    "text": "I think you may already know this answer."
+  },
+  {
+    "id": 101,
+    "start_time": 509.8,
+    "end_time": 512.8,
+    "text": "Okay, the file exists more or less indefinitely."
+  },
+  {
+    "id": 102,
+    "start_time": 512.8,
+    "end_time": 514.8,
+    "text": "The program has ceased execution."
+  },
+  {
+    "id": 103,
+    "start_time": 514.8,
+    "end_time": 519.8,
+    "text": "There is no additional process or threads or any kind of clean up that is happening."
+  },
+  {
+    "id": 104,
+    "start_time": 519.8,
+    "end_time": 524.8,
+    "text": "That is a resource that is now indefinitely in the system."
+  },
+  {
+    "id": 105,
+    "start_time": 524.8,
+    "end_time": 526.8,
+    "text": "Okay, until I force to be deleted."
+  },
+  {
+    "id": 106,
+    "start_time": 526.8,
+    "end_time": 529.8,
+    "text": "I can delete this pipe this,"
+  },
+  {
+    "id": 107,
+    "start_time": 529.8,
+    "end_time": 535.8,
+    "text": "but of course any sensible program would terminate and clean up all necessary resources."
+  },
+  {
+    "id": 108,
+    "start_time": 535.8,
+    "end_time": 538.8,
+    "text": "that's what I've done here."
+  },
+  {
+    "id": 109,
+    "start_time": 538.8,
+    "end_time": 541.8,
+    "text": "Okay."
+  },
+  {
+    "id": 110,
+    "start_time": 541.8,
+    "end_time": 544.8,
+    "text": "once I've created this pipe,"
+  },
+  {
+    "id": 111,
+    "start_time": 544.8,
+    "end_time": 546.8,
+    "text": "which has this special file name,"
+  },
+  {
+    "id": 112,
+    "start_time": 546.8,
+    "end_time": 553.8,
+    "text": "now I can pass in this shared name and then operate on it with my low level file I owe operations."
+  },
+  {
+    "id": 113,
+    "start_time": 553.8,
+    "end_time": 555.8,
+    "text": "let's take a look at this function."
+  },
+  {
+    "id": 114,
+    "start_time": 555.8,
+    "end_time": 562.8,
+    "text": "It accepts a string to a name of a pipe or , a special regular special file."
+  },
+  {
+    "id": 115,
+    "start_time": 562.8,
+    "end_time": 569.8,
+    "text": "And what I can do is I can get file descriptors for the read end of the pipe."
+  },
+  {
+    "id": 116,
+    "start_time": 569.8,
+    "end_time": 572.8,
+    "text": "Okay, this is the open, put in the flag read only."
+  },
+  {
+    "id": 117,
+    "start_time": 572.8,
+    "end_time": 576.8,
+    "text": "And I can get a file descriptor for the end of the pipe."
+  },
+  {
+    "id": 118,
+    "start_time": 576.8,
+    "end_time": 583.8,
+    "text": "this is completing our picture."
+  },
+  {
+    "id": 119,
+    "start_time": 583.8,
+    "end_time": 588.8,
+    "text": "Of the shared pipe where I have my read end."
+  },
+  {
+    "id": 120,
+    "start_time": 588.8,
+    "end_time": 590.8,
+    "text": "And I have my end."
+  },
+  {
+    "id": 121,
+    "start_time": 590.8,
+    "end_time": 596.8,
+    "text": "Okay, now it is also possible to open them in either one or both even."
+  },
+  {
+    "id": 122,
+    "start_time": 596.8,
+    "end_time": 606.8,
+    "text": "you can do this, but as a pipe, we specifically want to access maybe just one side read and one side for ."
+  },
+  {
+    "id": 123,
+    "start_time": 606.8,
+    "end_time": 609.8,
+    "text": "as we progress through our program,"
+  },
+  {
+    "id": 124,
+    "start_time": 609.8,
+    "end_time": 611.8,
+    "text": "we can now perform operations on this pipe."
+  },
+  {
+    "id": 125,
+    "start_time": 611.8,
+    "end_time": 614.8,
+    "text": "I can read everything from this pipe."
+  },
+  {
+    "id": 126,
+    "start_time": 614.8,
+    "end_time": 617.8,
+    "text": "And this process in particular will just be waiting."
+  },
+  {
+    "id": 127,
+    "start_time": 617.8,
+    "end_time": 621.8,
+    "text": "I won't be doing anything."
+  },
+  {
+    "id": 128,
+    "start_time": 621.8,
+    "end_time": 634.8,
+    "text": "at this stage, I just want to introduce this idea of a server and a client."
+  },
+  {
+    "id": 129,
+    "start_time": 634.8,
+    "end_time": 640.8,
+    "text": "the primary purpose of a server is to, as you can imagine, serve."
+  },
+  {
+    "id": 130,
+    "start_time": 640.8,
+    "end_time": 645.8,
+    "text": "it's to provide some services, answer certain requests."
+  },
+  {
+    "id": 131,
+    "start_time": 645.8,
+    "end_time": 655.8,
+    "text": "And a server is usually waiting for requests."
+  },
+  {
+    "id": 132,
+    "start_time": 655.8,
+    "end_time": 663.8,
+    "text": "Now you probably heard this term server a lot with respect to the internet, , contacting the server and the server replies."
+  },
+  {
+    "id": 133,
+    "start_time": 663.8,
+    "end_time": 664.8,
+    "text": "The server is down."
+  },
+  {
+    "id": 134,
+    "start_time": 664.8,
+    "end_time": 672.8,
+    "text": ", the server is a computer program, which is waiting for an event to occur and will respond to this."
+  },
+  {
+    "id": 135,
+    "start_time": 672.8,
+    "end_time": 679.8,
+    "text": "And usually they are running quite often for, , more or less than 24, 7."
+  },
+  {
+    "id": 136,
+    "start_time": 679.8,
+    "end_time": 685.8,
+    "text": "If you're talking about websites, they are just sitting there waiting for some event."
+  },
+  {
+    "id": 137,
+    "start_time": 685.8,
+    "end_time": 694.8,
+    "text": "When a client connects to the server."
+  },
+  {
+    "id": 138,
+    "start_time": 694.8,
+    "end_time": 701.8,
+    "text": "It issues a request for some data, some servers, some operation."
+  },
+  {
+    "id": 139,
+    "start_time": 701.8,
+    "end_time": 708.8,
+    "text": "And then it receives a reply."
+  },
+  {
+    "id": 140,
+    "start_time": 708.8,
+    "end_time": 715.8,
+    "text": "if you want to consider this timing diagram between server and client."
+  },
+  {
+    "id": 141,
+    "start_time": 715.8,
+    "end_time": 721.8,
+    "text": "My server operates indefinitely."
+  },
+  {
+    "id": 142,
+    "start_time": 721.8,
+    "end_time": 728.8,
+    "text": "And my client at some stage begins to exist in my system."
+  },
+  {
+    "id": 143,
+    "start_time": 728.8,
+    "end_time": 735.8,
+    "text": "And it will make a request to connect."
+  },
+  {
+    "id": 144,
+    "start_time": 735.8,
+    "end_time": 736.8,
+    "text": "Okay."
+  },
+  {
+    "id": 145,
+    "start_time": 736.8,
+    "end_time": 744.8,
+    "text": "And then following that connection, if it is successful, will make some sort of request for a service."
+  },
+  {
+    "id": 146,
+    "start_time": 744.8,
+    "end_time": 751.8,
+    "text": "And then that server will provide some reply."
+  },
+  {
+    "id": 147,
+    "start_time": 751.8,
+    "end_time": 752.8,
+    "text": "Okay."
+  },
+  {
+    "id": 148,
+    "start_time": 752.8,
+    "end_time": 756.8,
+    "text": "after the request is made, the client may be inactive."
+  },
+  {
+    "id": 149,
+    "start_time": 756.8,
+    "end_time": 758.8,
+    "text": "There is nothing else left to do."
+  },
+  {
+    "id": 150,
+    "start_time": 758.8,
+    "end_time": 759.8,
+    "text": "It receives a reply."
+  },
+  {
+    "id": 151,
+    "start_time": 759.8,
+    "end_time": 762.8,
+    "text": "And then it can continue its execution."
+  },
+  {
+    "id": 152,
+    "start_time": 762.8,
+    "end_time": 766.8,
+    "text": "That's a typical server client relationship."
+  },
+  {
+    "id": 153,
+    "start_time": 766.8,
+    "end_time": 770.8,
+    "text": "And in this lecture, I've talked about the idea of parent and child."
+  },
+  {
+    "id": 154,
+    "start_time": 770.8,
+    "end_time": 775.8,
+    "text": "And there is a protocol who is going to write to the pipe first, who is going to read from the pipe."
+  },
+  {
+    "id": 155,
+    "start_time": 775.8,
+    "end_time": 779.8,
+    "text": "And we can make a kind of synchronous order between them."
+  },
+  {
+    "id": 156,
+    "start_time": 779.8,
+    "end_time": 785.8,
+    "text": "The client and server has this relationship, which we can now emulate using pipes."
+  },
+  {
+    "id": 157,
+    "start_time": 785.8,
+    "end_time": 790.8,
+    "text": "I wish to do this now."
+  },
+  {
+    "id": 158,
+    "start_time": 790.8,
+    "end_time": 797.8,
+    "text": "I'm going to have a file, a function called operate on file."
+  },
+  {
+    "id": 159,
+    "start_time": 797.8,
+    "end_time": 803.8,
+    "text": "And what I'm going to do is I'm going to make a copy of these two programs."
+  },
+  {
+    "id": 160,
+    "start_time": 803.8,
+    "end_time": 807.8,
+    "text": "I'm going to make name pipe server."
+  },
+  {
+    "id": 161,
+    "start_time": 807.8,
+    "end_time": 813.8,
+    "text": "And I'm going to make name pipe client."
+  },
+  {
+    "id": 162,
+    "start_time": 813.8,
+    "end_time": 814.8,
+    "text": "Okay."
+  },
+  {
+    "id": 163,
+    "start_time": 814.8,
+    "end_time": 821.8,
+    "text": "And in order to help the situation, we will have two windows open."
+  },
+  {
+    "id": 164,
+    "start_time": 821.8,
+    "end_time": 825.8,
+    "text": "I'll have the client on the hand side."
+  },
+  {
+    "id": 165,
+    "start_time": 825.8,
+    "end_time": 829.8,
+    "text": "I'll have the server on the left hand side."
+  },
+  {
+    "id": 166,
+    "start_time": 829.8,
+    "end_time": 833.8,
+    "text": "let's first establish what we want our behavior."
+  },
+  {
+    "id": 167,
+    "start_time": 833.8,
+    "end_time": 835.8,
+    "text": "Well, we're not dealing with the internet."
+  },
+  {
+    "id": 168,
+    "start_time": 835.8,
+    "end_time": 836.8,
+    "text": "we don't have to do with this."
+  },
+  {
+    "id": 169,
+    "start_time": 836.8,
+    "end_time": 841.8,
+    "text": "It's connect phase, but the server is simply waiting for a request."
+  },
+  {
+    "id": 170,
+    "start_time": 841.8,
+    "end_time": 847.8,
+    "text": "our server will block here."
+  },
+  {
+    "id": 171,
+    "start_time": 847.8,
+    "end_time": 851.8,
+    "text": "And read from this named pipe."
+  },
+  {
+    "id": 172,
+    "start_time": 851.8,
+    "end_time": 853.8,
+    "text": "What is the current request?"
+  },
+  {
+    "id": 173,
+    "start_time": 853.8,
+    "end_time": 855.8,
+    "text": "that defines our server behavior."
+  },
+  {
+    "id": 174,
+    "start_time": 855.8,
+    "end_time": 862.8,
+    "text": "for our server, we are opening only the read end of this pipe."
+  },
+  {
+    "id": 175,
+    "start_time": 862.8,
+    "end_time": 866.8,
+    "text": "we don't need this one."
+  },
+  {
+    "id": 176,
+    "start_time": 866.8,
+    "end_time": 867.8,
+    "text": "Okay."
+  },
+  {
+    "id": 177,
+    "start_time": 867.8,
+    "end_time": 870.8,
+    "text": "we're going to read everything from this named pipe."
+  },
+  {
+    "id": 178,
+    "start_time": 870.8,
+    "end_time": 872.8,
+    "text": "And then we're going to print out what this message is."
+  },
+  {
+    "id": 179,
+    "start_time": 872.8,
+    "end_time": 880.8,
+    "text": "And this loop will ensure that we just repeat forever."
+  },
+  {
+    "id": 180,
+    "start_time": 881.8,
+    "end_time": 885.8,
+    "text": "this kind of server is known as an echo server."
+  },
+  {
+    "id": 181,
+    "start_time": 885.8,
+    "end_time": 888.8,
+    "text": "It simply provides a response."
+  },
+  {
+    "id": 182,
+    "start_time": 888.8,
+    "end_time": 890.8,
+    "text": "If I send the message."
+  },
+  {
+    "id": 183,
+    "start_time": 890.8,
+    "end_time": 894.8,
+    "text": "Hello, it will reflect."
+  },
+  {
+    "id": 184,
+    "start_time": 894.8,
+    "end_time": 898.8,
+    "text": "Hello back to this client."
+  },
+  {
+    "id": 185,
+    "start_time": 898.8,
+    "end_time": 901.8,
+    "text": "at the moment, I just want to set up the first phase,"
+  },
+  {
+    "id": 186,
+    "start_time": 901.8,
+    "end_time": 905.8,
+    "text": "which is let's just receive something on this name pipe, print out this message."
+  },
+  {
+    "id": 187,
+    "start_time": 906.8,
+    "end_time": 908.8,
+    "text": "And we will continue indefinitely."
+  },
+  {
+    "id": 188,
+    "start_time": 908.8,
+    "end_time": 910.8,
+    "text": "We won't be terminated."
+  },
+  {
+    "id": 189,
+    "start_time": 910.8,
+    "end_time": 912.8,
+    "text": "that's the server far."
+  },
+  {
+    "id": 190,
+    "start_time": 912.8,
+    "end_time": 915.8,
+    "text": "And let's look at the client."
+  },
+  {
+    "id": 191,
+    "start_time": 915.8,
+    "end_time": 918.8,
+    "text": "The client does not require reading from this pipe."
+  },
+  {
+    "id": 192,
+    "start_time": 918.8,
+    "end_time": 922.8,
+    "text": "what we can do is."
+  },
+  {
+    "id": 193,
+    "start_time": 922.8,
+    "end_time": 924.8,
+    "text": "Comment out this code that we don't need."
+  },
+  {
+    "id": 194,
+    "start_time": 924.8,
+    "end_time": 929.8,
+    "text": "We've got the end of the pipe, which is this shared name."
+  },
+  {
+    "id": 195,
+    "start_time": 929.8,
+    "end_time": 934.8,
+    "text": "We've got some timer, which I also don't need."
+  },
+  {
+    "id": 196,
+    "start_time": 934.8,
+    "end_time": 938.8,
+    "text": "And in this case, we want to send information on the pipe."
+  },
+  {
+    "id": 197,
+    "start_time": 938.8,
+    "end_time": 941.8,
+    "text": "the message I want to send."
+  },
+  {
+    "id": 198,
+    "start_time": 944.8,
+    "end_time": 949.8,
+    "text": "Let's call it hello from client."
+  },
+  {
+    "id": 199,
+    "start_time": 949.8,
+    "end_time": 955.8,
+    "text": "Okay, and then we've got our five two."
+  },
+  {
+    "id": 200,
+    "start_time": 956.8,
+    "end_time": 960.8,
+    "text": "SGM then message."
+  },
+  {
+    "id": 201,
+    "start_time": 960.8,
+    "end_time": 968.8,
+    "text": "Okay, and we want to know and return is equal to ."
+  },
+  {
+    "id": 202,
+    "start_time": 968.8,
+    "end_time": 972.8,
+    "text": "And the pipe that we wish to be writing to is FD."
+  },
+  {
+    "id": 203,
+    "start_time": 972.8,
+    "end_time": 976.8,
+    "text": "And we are writing the data, which is message."
+  },
+  {
+    "id": 204,
+    "start_time": 976.8,
+    "end_time": 979.8,
+    "text": "And the amount of data we're writing is exactly then."
+  },
+  {
+    "id": 205,
+    "start_time": 979.8,
+    "end_time": 983.8,
+    "text": "And now we can."
+  },
+  {
+    "id": 206,
+    "start_time": 983.8,
+    "end_time": 986.8,
+    "text": "We can ask this question."
+  },
+  {
+    "id": 207,
+    "start_time": 986.8,
+    "end_time": 995.8,
+    "text": "If N written is less than equal to zero, okay, there's some sort of error that happened."
+  },
+  {
+    "id": 208,
+    "start_time": 1002.8,
+    "end_time": 1012.8,
+    "text": "Okay, and probably as a client, I'd to say the message was sent."
+  },
+  {
+    "id": 209,
+    "start_time": 1012.8,
+    "end_time": 1019.8,
+    "text": "."
+  },
+  {
+    "id": 210,
+    "start_time": 1019.8,
+    "end_time": 1026.8,
+    "text": "."
+  },
+  {
+    "id": 211,
+    "start_time": 1026.8,
+    "end_time": 1038.8,
+    "text": "I'm just formatting this message I can say, okay."
+  },
+  {
+    "id": 212,
+    "start_time": 1038.8,
+    "end_time": 1045.8,
+    "text": "The message was sent and write N red bytes of landguides."
+  },
+  {
+    "id": 213,
+    "start_time": 1045.8,
+    "end_time": 1052.8,
+    "text": "And the client once it is finished, we no longer need to do anything."
+  },
+  {
+    "id": 214,
+    "start_time": 1052.8,
+    "end_time": 1065.8,
+    "text": "And because we have only one shared pipe, only one of these processes needs to be constructing it."
+  },
+  {
+    "id": 215,
+    "start_time": 1065.8,
+    "end_time": 1070.8,
+    "text": "And only one of these processes needs to remove it."
+  },
+  {
+    "id": 216,
+    "start_time": 1070.8,
+    "end_time": 1075.8,
+    "text": "from the client perspective, I simply have the name of the pipe."
+  },
+  {
+    "id": 217,
+    "start_time": 1075.8,
+    "end_time": 1079.8,
+    "text": "And then I perform operations on the pipe itself."
+  },
+  {
+    "id": 218,
+    "start_time": 1079.8,
+    "end_time": 1082.8,
+    "text": "Okay, and then I simply quit the server."
+  },
+  {
+    "id": 219,
+    "start_time": 1082.8,
+    "end_time": 1088.8,
+    "text": "However, is first tasked with constructing the pipe, then reading from the pipe,"
+  },
+  {
+    "id": 220,
+    "start_time": 1088.8,
+    "end_time": 1091.8,
+    "text": "waiting for some particular input in an infinite loop."
+  },
+  {
+    "id": 221,
+    "start_time": 1091.8,
+    "end_time": 1097.8,
+    "text": "And then after that infinite loop has completed, we will now unlink from this one."
+  },
+  {
+    "id": 222,
+    "start_time": 1097.8,
+    "end_time": 1105.8,
+    "text": "before instead of making this repeat forever, how about I make it time out after a certain time."
+  },
+  {
+    "id": 223,
+    "start_time": 1105.8,
+    "end_time": 1109.8,
+    "text": "And in order for me to do that, I need to think a little bit."
+  },
+  {
+    "id": 224,
+    "start_time": 1109.8,
+    "end_time": 1111.8,
+    "text": "Let's see."
+  },
+  {
+    "id": 225,
+    "start_time": 1111.8,
+    "end_time": 1120.8,
+    "text": "I could use get time of day."
+  },
+  {
+    "id": 226,
+    "start_time": 1120.8,
+    "end_time": 1128.8,
+    "text": "this will give me back a particular time in seconds since 1970."
+  },
+  {
+    "id": 227,
+    "start_time": 1128.8,
+    "end_time": 1133.8,
+    "text": "And I can use that as a time out function, which is that's fun part about see."
+  },
+  {
+    "id": 228,
+    "start_time": 1133.8,
+    "end_time": 1137.8,
+    "text": "There's no easy way to do time outs."
+  },
+  {
+    "id": 229,
+    "start_time": 1137.8,
+    "end_time": 1140.8,
+    "text": "struct."
+  },
+  {
+    "id": 230,
+    "start_time": 1140.8,
+    "end_time": 1145.8,
+    "text": "I'm going to start."
+  },
+  {
+    "id": 231,
+    "start_time": 1145.8,
+    "end_time": 1148.8,
+    "text": "Time."
+  },
+  {
+    "id": 232,
+    "start_time": 1148.8,
+    "end_time": 1153.8,
+    "text": "We can do it yet time of day."
+  },
+  {
+    "id": 233,
+    "start_time": 1153.8,
+    "end_time": 1156.8,
+    "text": "Passing the address of this structure."
+  },
+  {
+    "id": 234,
+    "start_time": 1156.8,
+    "end_time": 1161.8,
+    "text": "All the time zone we can provide null."
+  },
+  {
+    "id": 235,
+    "start_time": 1161.8,
+    "end_time": 1168.8,
+    "text": "I don't need this watch anymore."
+  },
+  {
+    "id": 236,
+    "start_time": 1168.8,
+    "end_time": 1171.8,
+    "text": "And."
+  },
+  {
+    "id": 237,
+    "start_time": 1171.8,
+    "end_time": 1172.8,
+    "text": "Yep, that's okay."
+  },
+  {
+    "id": 238,
+    "start_time": 1172.8,
+    "end_time": 1173.8,
+    "text": "We provide that now."
+  },
+  {
+    "id": 239,
+    "start_time": 1173.8,
+    "end_time": 1175.8,
+    "text": "We've already had it here."
+  },
+  {
+    "id": 240,
+    "start_time": 1175.8,
+    "end_time": 1178.8,
+    "text": "Okay, that's the start time."
+  },
+  {
+    "id": 241,
+    "start_time": 1178.8,
+    "end_time": 1188.8,
+    "text": "And then the end time."
+  },
+  {
+    "id": 242,
+    "start_time": 1188.8,
+    "end_time": 1190.8,
+    "text": "We have."
+  },
+  {
+    "id": 243,
+    "start_time": 1190.8,
+    "end_time": 1195.8,
+    "text": "Get time of day."
+  },
+  {
+    "id": 244,
+    "start_time": 1195.8,
+    "end_time": 1198.8,
+    "text": "And time now."
+  },
+  {
+    "id": 245,
+    "start_time": 1198.8,
+    "end_time": 1202.8,
+    "text": "And here's what we do our calculation."
+  },
+  {
+    "id": 246,
+    "start_time": 1202.8,
+    "end_time": 1206.8,
+    "text": "And what kind of type should I use to describe this?"
+  },
+  {
+    "id": 247,
+    "start_time": 1206.8,
+    "end_time": 1209.8,
+    "text": "We have time T."
+  },
+  {
+    "id": 248,
+    "start_time": 1209.8,
+    "end_time": 1211.8,
+    "text": "Time T."
+  },
+  {
+    "id": 249,
+    "start_time": 1211.8,
+    "end_time": 1214.8,
+    "text": "Oh, I do remember there was a specific."
+  },
+  {
+    "id": 250,
+    "start_time": 1214.8,
+    "end_time": 1223.8,
+    "text": "A specific type just for differing time."
+  },
+  {
+    "id": 251,
+    "start_time": 1223.8,
+    "end_time": 1225.8,
+    "text": "Okay."
+  },
+  {
+    "id": 252,
+    "start_time": 1225.8,
+    "end_time": 1231.8,
+    "text": "Let's just let's just go with this one."
+  },
+  {
+    "id": 253,
+    "start_time": 1231.8,
+    "end_time": 1237.8,
+    "text": "And time T."
+  },
+  {
+    "id": 254,
+    "start_time": 1237.8,
+    "end_time": 1241.8,
+    "text": "And time TV sec."
+  },
+  {
+    "id": 255,
+    "start_time": 1241.8,
+    "end_time": 1244.8,
+    "text": "Minus stop time."
+  },
+  {
+    "id": 256,
+    "start_time": 1244.8,
+    "end_time": 1246.8,
+    "text": "TV sec."
+  },
+  {
+    "id": 257,
+    "start_time": 1246.8,
+    "end_time": 1255.8,
+    "text": "Okay, this gives us if the diff is greater than just to say 15 seconds."
+  },
+  {
+    "id": 258,
+    "start_time": 1255.8,
+    "end_time": 1257.8,
+    "text": "Break."
+  },
+  {
+    "id": 259,
+    "start_time": 1257.8,
+    "end_time": 1261.8,
+    "text": "This is otherwise an infinite loop."
+  },
+  {
+    "id": 260,
+    "start_time": 1261.8,
+    "end_time": 1263.8,
+    "text": "And have I forgotten any header file?"
+  },
+  {
+    "id": 261,
+    "start_time": 1263.8,
+    "end_time": 1269.8,
+    "text": "I need sys time this one."
+  },
+  {
+    "id": 262,
+    "start_time": 1269.8,
+    "end_time": 1274.8,
+    "text": "And include."
+  },
+  {
+    "id": 263,
+    "start_time": 1274.8,
+    "end_time": 1277.8,
+    "text": "H."
+  },
+  {
+    "id": 264,
+    "start_time": 1277.8,
+    "end_time": 1278.8,
+    "text": "Okay, great."
+  },
+  {
+    "id": 265,
+    "start_time": 1278.8,
+    "end_time": 1283.8,
+    "text": "And now we can begin this lovely process of compilation."
+  },
+  {
+    "id": 266,
+    "start_time": 1283.8,
+    "end_time": 1286.8,
+    "text": "Let's see what it likes and what it doesn't ."
+  },
+  {
+    "id": 267,
+    "start_time": 1286.8,
+    "end_time": 1287.8,
+    "text": "unused variable."
+  },
+  {
+    "id": 268,
+    "start_time": 1287.8,
+    "end_time": 1289.8,
+    "text": "That's probably okay."
+  },
+  {
+    "id": 269,
+    "start_time": 1289.8,
+    "end_time": 1292.8,
+    "text": "And for our client."
+  },
+  {
+    "id": 270,
+    "start_time": 1292.8,
+    "end_time": 1299.8,
+    "text": "And in this case, we do want to create separate executables because we're going to have server and clients."
+  },
+  {
+    "id": 271,
+    "start_time": 1299.8,
+    "end_time": 1302.8,
+    "text": "Let's do minus over."
+  },
+  {
+    "id": 272,
+    "start_time": 1302.8,
+    "end_time": 1305.8,
+    "text": "Okay, minus a client and."
+  },
+  {
+    "id": 273,
+    "start_time": 1305.8,
+    "end_time": 1306.8,
+    "text": "this."
+  },
+  {
+    "id": 274,
+    "start_time": 1306.8,
+    "end_time": 1311.8,
+    "text": "And this one doesn't N red."
+  },
+  {
+    "id": 275,
+    "start_time": 1311.8,
+    "end_time": 1312.8,
+    "text": "N red, undeclared."
+  },
+  {
+    "id": 276,
+    "start_time": 1312.8,
+    "end_time": 1332.8,
+    "text": "And this of course I have written not red."
+  },
+  {
+    "id": 277,
+    "start_time": 1332.8,
+    "end_time": 1333.8,
+    "text": "Seems that."
+  },
+  {
+    "id": 278,
+    "start_time": 1333.8,
+    "end_time": 1335.8,
+    "text": "That's quite helpful."
+  },
+  {
+    "id": 279,
+    "start_time": 1335.8,
+    "end_time": 1339.8,
+    "text": "Alright, that's great."
+  },
+  {
+    "id": 280,
+    "start_time": 1339.8,
+    "end_time": 1345.8,
+    "text": "Now, if I was to run the client, let's just take a look at your directory."
+  },
+  {
+    "id": 281,
+    "start_time": 1345.8,
+    "end_time": 1348.8,
+    "text": "We have a client."
+  },
+  {
+    "id": 282,
+    "start_time": 1348.8,
+    "end_time": 1351.8,
+    "text": "We have a server executable."
+  },
+  {
+    "id": 283,
+    "start_time": 1351.8,
+    "end_time": 1357.8,
+    "text": "If I was to run the client, what would happen is I open this only negative one."
+  },
+  {
+    "id": 284,
+    "start_time": 1357.8,
+    "end_time": 1358.8,
+    "text": "Open for failed."
+  },
+  {
+    "id": 285,
+    "start_time": 1358.8,
+    "end_time": 1361.8,
+    "text": "And I such file directory fail to use pipe."
+  },
+  {
+    "id": 286,
+    "start_time": 1361.8,
+    "end_time": 1365.8,
+    "text": "my program has some built in error checking, which says."
+  },
+  {
+    "id": 287,
+    "start_time": 1365.8,
+    "end_time": 1368.8,
+    "text": "Pass the name with this pipe."
+  },
+  {
+    "id": 288,
+    "start_time": 1368.8,
+    "end_time": 1371.8,
+    "text": "And then if the result is not equal to zero, then that I failed."
+  },
+  {
+    "id": 289,
+    "start_time": 1371.8,
+    "end_time": 1376.8,
+    "text": "And within this, I've attempted to open this this file."
+  },
+  {
+    "id": 290,
+    "start_time": 1376.8,
+    "end_time": 1380.8,
+    "text": "I've checked what is the file that's scripted given open for has failed."
+  },
+  {
+    "id": 291,
+    "start_time": 1380.8,
+    "end_time": 1384.8,
+    "text": "Okay, that's what I've got here."
+  },
+  {
+    "id": 292,
+    "start_time": 1384.8,
+    "end_time": 1387.8,
+    "text": "And that's clearly not what I wanted."
+  },
+  {
+    "id": 293,
+    "start_time": 1387.8,
+    "end_time": 1391.8,
+    "text": ", , this is the first printout, the second printout, and the third printout was after returning from function."
+  },
+  {
+    "id": 294,
+    "start_time": 1392.8,
+    "end_time": 1397.8,
+    "text": "this program won't work unless a name to pipe exists first."
+  },
+  {
+    "id": 295,
+    "start_time": 1397.8,
+    "end_time": 1401.8,
+    "text": "what we'll do is we will begin our server."
+  },
+  {
+    "id": 296,
+    "start_time": 1401.8,
+    "end_time": 1404.8,
+    "text": "And now taking a look at our directory."
+  },
+  {
+    "id": 297,
+    "start_time": 1404.8,
+    "end_time": 1407.8,
+    "text": "Now we do have our pipe here."
+  },
+  {
+    "id": 298,
+    "start_time": 1407.8,
+    "end_time": 1410.8,
+    "text": "Okay, and it does have the permission set read and write."
+  },
+  {
+    "id": 299,
+    "start_time": 1410.8,
+    "end_time": 1417.8,
+    "text": "And now I can have my client, which is attempting to open the pipe and to the pipe."
+  },
+  {
+    "id": 300,
+    "start_time": 1418.8,
+    "end_time": 1423.8,
+    "text": "here we have the pipe."
+  },
+  {
+    "id": 301,
+    "start_time": 1423.8,
+    "end_time": 1429.8,
+    "text": "message hello from client was sent and written 18 of 18 bytes."
+  },
+  {
+    "id": 302,
+    "start_time": 1429.8,
+    "end_time": 1436.8,
+    "text": "And then on the server side, I have message Len 18 hello from client."
+  },
+  {
+    "id": 303,
+    "start_time": 1436.8,
+    "end_time": 1438.8,
+    "text": "that's a successful test."
+  },
+  {
+    "id": 304,
+    "start_time": 1438.8,
+    "end_time": 1444.8,
+    "text": "We've used a named pipe between two different processes."
+  },
+  {
+    "id": 305,
+    "start_time": 1444.8,
+    "end_time": 1449.8,
+    "text": "we could move on to our echo server model."
+  },
+  {
+    "id": 306,
+    "start_time": 1449.8,
+    "end_time": 1453.8,
+    "text": "in this echo server model."
+  },
+  {
+    "id": 307,
+    "start_time": 1453.8,
+    "end_time": 1459.8,
+    "text": "The server will live probably a little bit longer than this."
+  },
+  {
+    "id": 308,
+    "start_time": 1459.8,
+    "end_time": 1465.8,
+    "text": "And what we want to do after we receive a message."
+  },
+  {
+    "id": 309,
+    "start_time": 1465.8,
+    "end_time": 1467.8,
+    "text": "Is we want to send a message back."
+  },
+  {
+    "id": 310,
+    "start_time": 1467.8,
+    "end_time": 1473.8,
+    "text": "now I do want a pipe for sending a message back."
+  },
+  {
+    "id": 311,
+    "start_time": 1473.8,
+    "end_time": 1477.8,
+    "text": "And what I'll do is I'll have a another pipe."
+  },
+  {
+    "id": 312,
+    "start_time": 1477.8,
+    "end_time": 1481.8,
+    "text": "I don't want to use the same pipe for both reading while it is possible."
+  },
+  {
+    "id": 313,
+    "start_time": 1481.8,
+    "end_time": 1484.8,
+    "text": "It's not ideal because we have to synchronize very carefully."
+  },
+  {
+    "id": 314,
+    "start_time": 1484.8,
+    "end_time": 1487.8,
+    "text": "."
+  },
+  {
+    "id": 315,
+    "start_time": 1487.8,
+    "end_time": 1490.8,
+    "text": "I'll just call it to client."
+  },
+  {
+    "id": 316,
+    "start_time": 1490.8,
+    "end_time": 1496.8,
+    "text": "And here we're going to open a ."
+  },
+  {
+    "id": 317,
+    "start_time": 1496.8,
+    "end_time": 1500.8,
+    "text": "File descriptor."
+  },
+  {
+    "id": 318,
+    "start_time": 1500.8,
+    "end_time": 1503.8,
+    "text": "It's going to be only."
+  },
+  {
+    "id": 319,
+    "start_time": 1503.8,
+    "end_time": 1508.8,
+    "text": "I will skip this, which is just a timing function."
+  },
+  {
+    "id": 320,
+    "start_time": 1508.8,
+    "end_time": 1513.8,
+    "text": "And here I will now be able to perform my operations."
+  },
+  {
+    "id": 321,
+    "start_time": 1513.8,
+    "end_time": 1519.8,
+    "text": "And you may be starting to see some patterns emerging here every time I perform some activity."
+  },
+  {
+    "id": 322,
+    "start_time": 1519.8,
+    "end_time": 1523.8,
+    "text": "I have to do the following."
+  },
+  {
+    "id": 323,
+    "start_time": 1523.8,
+    "end_time": 1527.8,
+    "text": "I still need to check."
+  },
+  {
+    "id": 324,
+    "start_time": 1527.8,
+    "end_time": 1530.8,
+    "text": "The size of the message."
+  },
+  {
+    "id": 325,
+    "start_time": 1530.8,
+    "end_time": 1535.8,
+    "text": "Need to have this and written number."
+  },
+  {
+    "id": 326,
+    "start_time": 1535.8,
+    "end_time": 1539.8,
+    "text": "Back here."
+  },
+  {
+    "id": 327,
+    "start_time": 1539.8,
+    "end_time": 1546.8,
+    "text": "the message I'm going to write back to the client should be contents of this buffer."
+  },
+  {
+    "id": 328,
+    "start_time": 1546.8,
+    "end_time": 1551.8,
+    "text": "And it should be the amount of information that I read into that buffer."
+  },
+  {
+    "id": 329,
+    "start_time": 1551.8,
+    "end_time": 1557.8,
+    "text": "this one is not too difficult."
+  },
+  {
+    "id": 330,
+    "start_time": 1557.8,
+    "end_time": 1570.8,
+    "text": "And we should always check have I been successful."
+  },
+  {
+    "id": 331,
+    "start_time": 1570.8,
+    "end_time": 1579.8,
+    "text": "I failed to write and let's just say we break from our current routine."
+  },
+  {
+    "id": 332,
+    "start_time": 1579.8,
+    "end_time": 1582.8,
+    "text": "Okay."
+  },
+  {
+    "id": 333,
+    "start_time": 1582.8,
+    "end_time": 1589.8,
+    "text": "one thing I just realized is this server will block on read and then stop here."
+  },
+  {
+    "id": 334,
+    "start_time": 1589.8,
+    "end_time": 1593.8,
+    "text": "And the start time would have been captured before the loop was entered."
+  },
+  {
+    "id": 335,
+    "start_time": 1593.8,
+    "end_time": 1597.8,
+    "text": "that means the time is ticking and every time we're blocking that time."
+  },
+  {
+    "id": 336,
+    "start_time": 1597.8,
+    "end_time": 1601.8,
+    "text": "Well, we retain the same time value, but the clock is changing."
+  },
+  {
+    "id": 337,
+    "start_time": 1601.8,
+    "end_time": 1607.8,
+    "text": "if 15 seconds has passed after the first read, this will definitely trigger to be true."
+  },
+  {
+    "id": 338,
+    "start_time": 1607.8,
+    "end_time": 1609.8,
+    "text": "And then we'll break the loop."
+  },
+  {
+    "id": 339,
+    "start_time": 1609.8,
+    "end_time": 1612.8,
+    "text": "this one time out and break the loop."
+  },
+  {
+    "id": 340,
+    "start_time": 1612.8,
+    "end_time": 1615.8,
+    "text": "It will just continue to block on this function."
+  },
+  {
+    "id": 341,
+    "start_time": 1615.8,
+    "end_time": 1618.8,
+    "text": "that's just something to keep in mind there."
+  },
+  {
+    "id": 342,
+    "start_time": 1618.8,
+    "end_time": 1621.8,
+    "text": "Otherwise, we'll be able to perform all these operations."
+  },
+  {
+    "id": 343,
+    "start_time": 1621.8,
+    "end_time": 1627.8,
+    "text": "No problem."
+  },
+  {
+    "id": 344,
+    "start_time": 1627.8,
+    "end_time": 1628.8,
+    "text": "All ."
+  },
+  {
+    "id": 345,
+    "start_time": 1628.8,
+    "end_time": 1629.8,
+    "text": "that's our server."
+  },
+  {
+    "id": 346,
+    "start_time": 1629.8,
+    "end_time": 1631.8,
+    "text": "We are now receiving a message and writing back."
+  },
+  {
+    "id": 347,
+    "start_time": 1631.8,
+    "end_time": 1636.8,
+    "text": "And then we are looping around within a 15 second interval."
+  },
+  {
+    "id": 348,
+    "start_time": 1636.8,
+    "end_time": 1646.8,
+    "text": "For our function to work, we now need the name of the pipe that exists for the client."
+  },
+  {
+    "id": 349,
+    "start_time": 1646.8,
+    "end_time": 1654.8,
+    "text": "I'll need to have an additional file using MK FIFA."
+  },
+  {
+    "id": 350,
+    "start_time": 1654.8,
+    "end_time": 1662.8,
+    "text": "And what I'll do is the very naughty thing of copying in Pacing."
+  },
+  {
+    "id": 351,
+    "start_time": 1663.8,
+    "end_time": 1667.8,
+    "text": "I'm going to call this one to client."
+  },
+  {
+    "id": 352,
+    "start_time": 1667.8,
+    "end_time": 1672.8,
+    "text": "if you're interacting with this particular server."
+  },
+  {
+    "id": 353,
+    "start_time": 1672.8,
+    "end_time": 1675.8,
+    "text": "these are the permissions for the client."
+  },
+  {
+    "id": 354,
+    "start_time": 1675.8,
+    "end_time": 1680.8,
+    "text": "And I should give this another name."
+  },
+  {
+    "id": 355,
+    "start_time": 1680.8,
+    "end_time": 1685.8,
+    "text": "This is two client file name."
+  },
+  {
+    "id": 356,
+    "start_time": 1685.8,
+    "end_time": 1687.8,
+    "text": "Using the same permission set."
+  },
+  {
+    "id": 357,
+    "start_time": 1687.8,
+    "end_time": 1694.8,
+    "text": "If we are unable to construct this client pipe, then of course, everything should fail."
+  },
+  {
+    "id": 358,
+    "start_time": 1694.8,
+    "end_time": 1699.8,
+    "text": "if the server has set up successfully, then we should be able to have two pipes running."
+  },
+  {
+    "id": 359,
+    "start_time": 1699.8,
+    "end_time": 1701.8,
+    "text": "Wait on this."
+  },
+  {
+    "id": 360,
+    "start_time": 1701.8,
+    "end_time": 1704.8,
+    "text": "One pipe and then back to a different pipe."
+  },
+  {
+    "id": 361,
+    "start_time": 1704.8,
+    "end_time": 1707.8,
+    "text": "When the program has finished,"
+  },
+  {
+    "id": 362,
+    "start_time": 1707.8,
+    "end_time": 1710.8,
+    "text": "we should free all of our resources."
+  },
+  {
+    "id": 363,
+    "start_time": 1710.8,
+    "end_time": 1712.8,
+    "text": "And this is why I've written in this way."
+  },
+  {
+    "id": 364,
+    "start_time": 1712.8,
+    "end_time": 1714.8,
+    "text": "we can clearly see I've created two pipes."
+  },
+  {
+    "id": 365,
+    "start_time": 1714.8,
+    "end_time": 1715.8,
+    "text": "I need to clear two pipes."
+  },
+  {
+    "id": 366,
+    "start_time": 1715.8,
+    "end_time": 1718.8,
+    "text": "And then there's a whole lot of logic in between."
+  },
+  {
+    "id": 367,
+    "start_time": 1718.8,
+    "end_time": 1728.8,
+    "text": "It always helps to factor out functions in this way that you can separate the initialization and tear down of your functions and resources."
+  },
+  {
+    "id": 368,
+    "start_time": 1728.8,
+    "end_time": 1730.8,
+    "text": "Okay, we've passed this into client."
+  },
+  {
+    "id": 369,
+    "start_time": 1730.8,
+    "end_time": 1733.8,
+    "text": "I've opened to client as read only mode."
+  },
+  {
+    "id": 370,
+    "start_time": 1733.8,
+    "end_time": 1735.8,
+    "text": "Okay, and if this was successful, be okay."
+  },
+  {
+    "id": 371,
+    "start_time": 1735.8,
+    "end_time": 1736.8,
+    "text": "Otherwise, return."
+  },
+  {
+    "id": 372,
+    "start_time": 1736.8,
+    "end_time": 1741.8,
+    "text": "I've started the timer or something that resembles the timer captured the time."
+  },
+  {
+    "id": 373,
+    "start_time": 1741.8,
+    "end_time": 1744.8,
+    "text": "Read from the buffer to this other buffer."
+  },
+  {
+    "id": 374,
+    "start_time": 1744.8,
+    "end_time": 1747.8,
+    "text": "And then I should be able to complete."
+  },
+  {
+    "id": 375,
+    "start_time": 1747.8,
+    "end_time": 1751.8,
+    "text": "And what I'll do for this."
+  },
+  {
+    "id": 376,
+    "start_time": 1751.8,
+    "end_time": 1753.8,
+    "text": "Server."
+  },
+  {
+    "id": 377,
+    "start_time": 1753.8,
+    "end_time": 1757.8,
+    "text": "Let's say print."
+  },
+  {
+    "id": 378,
+    "start_time": 1757.8,
+    "end_time": 1763.8,
+    "text": "Message reflected."
+  },
+  {
+    "id": 379,
+    "start_time": 1763.8,
+    "end_time": 1765.8,
+    "text": "And , I could do things ."
+  },
+  {
+    "id": 380,
+    "start_time": 1765.8,
+    "end_time": 1770.8,
+    "text": "At a particular time or , whatever I may need."
+  },
+  {
+    "id": 381,
+    "start_time": 1770.8,
+    "end_time": 1772.8,
+    "text": "Okay, that's a server done."
+  },
+  {
+    "id": 382,
+    "start_time": 1772.8,
+    "end_time": 1778.8,
+    "text": "As for the client, now we are going to."
+  },
+  {
+    "id": 383,
+    "start_time": 1778.8,
+    "end_time": 1783.8,
+    "text": "Require the same."
+  },
+  {
+    "id": 384,
+    "start_time": 1783.8,
+    "end_time": 1785.8,
+    "text": "And I'm going to use different."
+  },
+  {
+    "id": 385,
+    "start_time": 1785.8,
+    "end_time": 1791.8,
+    "text": "File name from server."
+  },
+  {
+    "id": 386,
+    "start_time": 1791.8,
+    "end_time": 1798.8,
+    "text": "in this case, we want to open."
+  },
+  {
+    "id": 387,
+    "start_time": 1798.8,
+    "end_time": 1801.8,
+    "text": "From server."
+  },
+  {
+    "id": 388,
+    "start_time": 1801.8,
+    "end_time": 1802.8,
+    "text": "That should be okay."
+  },
+  {
+    "id": 389,
+    "start_time": 1802.8,
+    "end_time": 1804.8,
+    "text": "we got read file descriptor."
+  },
+  {
+    "id": 390,
+    "start_time": 1804.8,
+    "end_time": 1807.8,
+    "text": "We now have a file which we've constructed."
+  },
+  {
+    "id": 391,
+    "start_time": 1807.8,
+    "end_time": 1809.8,
+    "text": "We've sent something to the server."
+  },
+  {
+    "id": 392,
+    "start_time": 1809.8,
+    "end_time": 1812.8,
+    "text": "And now the task is to read back."
+  },
+  {
+    "id": 393,
+    "start_time": 1812.8,
+    "end_time": 1814.8,
+    "text": "Something that we received from the server."
+  },
+  {
+    "id": 394,
+    "start_time": 1814.8,
+    "end_time": 1816.8,
+    "text": "I can do the same thing."
+  },
+  {
+    "id": 395,
+    "start_time": 1816.8,
+    "end_time": 1817.8,
+    "text": "Server."
+  },
+  {
+    "id": 396,
+    "start_time": 1817.8,
+    "end_time": 1819.8,
+    "text": "One two eight."
+  },
+  {
+    "id": 397,
+    "start_time": 1819.8,
+    "end_time": 1821.8,
+    "text": "And I can do."
+  },
+  {
+    "id": 398,
+    "start_time": 1821.8,
+    "end_time": 1824.8,
+    "text": "This one here."
+  },
+  {
+    "id": 399,
+    "start_time": 1824.8,
+    "end_time": 1826.8,
+    "text": "I will paste."
+  },
+  {
+    "id": 400,
+    "start_time": 1826.8,
+    "end_time": 1829.8,
+    "text": "And unfortunately the."
+  },
+  {
+    "id": 401,
+    "start_time": 1829.8,
+    "end_time": 1831.8,
+    "text": "Line numbers will be."
+  },
+  {
+    "id": 402,
+    "start_time": 1831.8,
+    "end_time": 1832.8,
+    "text": "Agen in."
+  },
+  {
+    "id": 403,
+    "start_time": 1832.8,
+    "end_time": 1835.8,
+    "text": "just check all your lines when you do paste."
+  },
+  {
+    "id": 404,
+    "start_time": 1835.8,
+    "end_time": 1840.8,
+    "text": "Because lots of things can go wrong with a copy and paste."
+  },
+  {
+    "id": 405,
+    "start_time": 1840.8,
+    "end_time": 1844.8,
+    "text": "In this case, I have to construct a new variable and read."
+  },
+  {
+    "id": 406,
+    "start_time": 1844.8,
+    "end_time": 1847.8,
+    "text": "Which hasn't been, which doesn't exist before."
+  },
+  {
+    "id": 407,
+    "start_time": 1847.8,
+    "end_time": 1850.8,
+    "text": "I am reading into this buffer."
+  },
+  {
+    "id": 408,
+    "start_time": 1850.8,
+    "end_time": 1853.8,
+    "text": "Maximum 128 and ready to listen zero."
+  },
+  {
+    "id": 409,
+    "start_time": 1853.8,
+    "end_time": 1857.8,
+    "text": "And then we have some more helpful message message received."
+  },
+  {
+    "id": 410,
+    "start_time": 1857.8,
+    "end_time": 1859.8,
+    "text": "On server."
+  },
+  {
+    "id": 411,
+    "start_time": 1859.8,
+    "end_time": 1861.8,
+    "text": "One."
+  },
+  {
+    "id": 412,
+    "start_time": 1861.8,
+    "end_time": 1864.8,
+    "text": "Okay, and we've got N red and buffer."
+  },
+  {
+    "id": 413,
+    "start_time": 1864.8,
+    "end_time": 1867.8,
+    "text": "Okay, our client."
+  },
+  {
+    "id": 414,
+    "start_time": 1867.8,
+    "end_time": 1870.8,
+    "text": "As opened two files."
+  },
+  {
+    "id": 415,
+    "start_time": 1870.8,
+    "end_time": 1875.8,
+    "text": "And when we open two files, we should also have a corresponding closing of two files."
+  },
+  {
+    "id": 416,
+    "start_time": 1875.8,
+    "end_time": 1878.8,
+    "text": "And on me."
+  },
+  {
+    "id": 417,
+    "start_time": 1878.8,
+    "end_time": 1882.8,
+    "text": "We've got read FD."
+  },
+  {
+    "id": 418,
+    "start_time": 1882.8,
+    "end_time": 1888.8,
+    "text": "And we should have that same thing in our server."
+  },
+  {
+    "id": 419,
+    "start_time": 1888.8,
+    "end_time": 1900.8,
+    "text": "And this is why C programming takes quite a long time because we have to remember."
+  },
+  {
+    "id": 420,
+    "start_time": 1900.8,
+    "end_time": 1903.8,
+    "text": "To clean up everything."
+  },
+  {
+    "id": 421,
+    "start_time": 1903.8,
+    "end_time": 1909.8,
+    "text": "And this is why it's also a bit of a security risk because if we fail to clean up, then things can go wrong."
+  },
+  {
+    "id": 422,
+    "start_time": 1910.8,
+    "end_time": 1915.8,
+    "text": "And of course, we need to provide the name of this."
+  },
+  {
+    "id": 423,
+    "start_time": 1915.8,
+    "end_time": 1919.8,
+    "text": "Client only."
+  },
+  {
+    "id": 424,
+    "start_time": 1919.8,
+    "end_time": 1922.8,
+    "text": "And we've called it to client pipe."
+  },
+  {
+    "id": 425,
+    "start_time": 1922.8,
+    "end_time": 1925.8,
+    "text": "I'll use."
+  },
+  {
+    "id": 426,
+    "start_time": 1925.8,
+    "end_time": 1930.8,
+    "text": "Very nice name."
+  },
+  {
+    "id": 427,
+    "start_time": 1930.8,
+    "end_time": 1932.8,
+    "text": "Very tempted to change it."
+  },
+  {
+    "id": 428,
+    "start_time": 1932.8,
+    "end_time": 1935.8,
+    "text": "this name has to be shared."
+  },
+  {
+    "id": 429,
+    "start_time": 1935.8,
+    "end_time": 1949.8,
+    "text": "If I really wanted to make this nicer, which probably I should."
+  },
+  {
+    "id": 430,
+    "start_time": 1949.8,
+    "end_time": 1959.8,
+    "text": "I can replace to client with reply."
+  },
+  {
+    "id": 431,
+    "start_time": 1959.8,
+    "end_time": 1962.8,
+    "text": "Okay, I could call it the reply pipe."
+  },
+  {
+    "id": 432,
+    "start_time": 1962.8,
+    "end_time": 1965.8,
+    "text": "I can call it the request pipe."
+  },
+  {
+    "id": 433,
+    "start_time": 1965.8,
+    "end_time": 1968.8,
+    "text": "Okay, that's a much more better convention for naming."
+  },
+  {
+    "id": 434,
+    "start_time": 1968.8,
+    "end_time": 1973.8,
+    "text": "likewise here."
+  },
+  {
+    "id": 435,
+    "start_time": 1973.8,
+    "end_time": 1976.8,
+    "text": "For the same thing to client."
+  },
+  {
+    "id": 436,
+    "start_time": 1976.8,
+    "end_time": 1978.8,
+    "text": "Change to reply."
+  },
+  {
+    "id": 437,
+    "start_time": 1978.8,
+    "end_time": 1983.8,
+    "text": "And you always have to be careful with a global replacement."
+  },
+  {
+    "id": 438,
+    "start_time": 1983.8,
+    "end_time": 1986.8,
+    "text": "And this is request."
+  },
+  {
+    "id": 439,
+    "start_time": 1986.8,
+    "end_time": 1989.8,
+    "text": "let's just check what we've done here."
+  },
+  {
+    "id": 440,
+    "start_time": 1989.8,
+    "end_time": 1991.8,
+    "text": "I've got two file names."
+  },
+  {
+    "id": 441,
+    "start_time": 1991.8,
+    "end_time": 1993.8,
+    "text": "I don't need to construct any fifos."
+  },
+  {
+    "id": 442,
+    "start_time": 1993.8,
+    "end_time": 1994.8,
+    "text": "That's okay."
+  },
+  {
+    "id": 443,
+    "start_time": 1994.8,
+    "end_time": 1997.8,
+    "text": "I provided the request."
+  },
+  {
+    "id": 444,
+    "start_time": 1997.8,
+    "end_time": 2001.8,
+    "text": "I can change here."
+  },
+  {
+    "id": 445,
+    "start_time": 2001.8,
+    "end_time": 2005.8,
+    "text": "I should probably call this request."
+  },
+  {
+    "id": 446,
+    "start_time": 2005.8,
+    "end_time": 2011.8,
+    "text": "F name or something more appropriate."
+  },
+  {
+    "id": 447,
+    "start_time": 2011.8,
+    "end_time": 2014.8,
+    "text": "And you can see the client and the server mirror."
+  },
+  {
+    "id": 448,
+    "start_time": 2014.8,
+    "end_time": 2025.8,
+    "text": "this kind of implementation."
+  },
+  {
+    "id": 449,
+    "start_time": 2025.8,
+    "end_time": 2029.8,
+    "text": "that takes care of this function all nice and tidy."
+  },
+  {
+    "id": 450,
+    "start_time": 2029.8,
+    "end_time": 2031.8,
+    "text": "I don't need this."
+  },
+  {
+    "id": 451,
+    "start_time": 2031.8,
+    "end_time": 2035.8,
+    "text": "Fifo."
+  },
+  {
+    "id": 452,
+    "start_time": 2035.8,
+    "end_time": 2037.8,
+    "text": "And these comments probably can remain."
+  },
+  {
+    "id": 453,
+    "start_time": 2037.8,
+    "end_time": 2040.8,
+    "text": "I don't need to sleep."
+  },
+  {
+    "id": 454,
+    "start_time": 2040.8,
+    "end_time": 2041.8,
+    "text": "That's nice."
+  },
+  {
+    "id": 455,
+    "start_time": 2041.8,
+    "end_time": 2045.8,
+    "text": "And on this side."
+  },
+  {
+    "id": 456,
+    "start_time": 2045.8,
+    "end_time": 2050.8,
+    "text": "I've got something that's called from server, which is probably okay."
+  },
+  {
+    "id": 457,
+    "start_time": 2050.8,
+    "end_time": 2052.8,
+    "text": "And we're reading service."
+  },
+  {
+    "id": 458,
+    "start_time": 2052.8,
+    "end_time": 2060.8,
+    "text": "both of these fast disk."
+  },
+  {
+    "id": 459,
+    "start_time": 2060.8,
+    "end_time": 2063.8,
+    "text": "And let's just try the compilation."
+  },
+  {
+    "id": 460,
+    "start_time": 2063.8,
+    "end_time": 2065.8,
+    "text": "we've got a few problems."
+  },
+  {
+    "id": 461,
+    "start_time": 2065.8,
+    "end_time": 2069.8,
+    "text": "We've got a redefinition of red on 83."
+  },
+  {
+    "id": 462,
+    "start_time": 2069.8,
+    "end_time": 2073.8,
+    "text": "And that's because I'm making the fifo to us."
+  },
+  {
+    "id": 463,
+    "start_time": 2073.8,
+    "end_time": 2075.8,
+    "text": "Yep."
+  },
+  {
+    "id": 464,
+    "start_time": 2075.8,
+    "end_time": 2076.8,
+    "text": "And this replies."
+  },
+  {
+    "id": 465,
+    "start_time": 2076.8,
+    "end_time": 2080.8,
+    "text": "Okay."
+  },
+  {
+    "id": 466,
+    "start_time": 2080.8,
+    "end_time": 2083.8,
+    "text": "And this one doesn't ."
+  },
+  {
+    "id": 467,
+    "start_time": 2083.8,
+    "end_time": 2089.8,
+    "text": "Message reflected from client, which I failed to provide a buffer."
+  },
+  {
+    "id": 468,
+    "start_time": 2089.8,
+    "end_time": 2096.8,
+    "text": "You should always look at the compiler error messages."
+  },
+  {
+    "id": 469,
+    "start_time": 2096.8,
+    "end_time": 2098.8,
+    "text": "I've enabled all warnings."
+  },
+  {
+    "id": 470,
+    "start_time": 2098.8,
+    "end_time": 2101.8,
+    "text": "that means now my server is safe."
+  },
+  {
+    "id": 471,
+    "start_time": 2101.8,
+    "end_time": 2103.8,
+    "text": "the server has up and running."
+  },
+  {
+    "id": 472,
+    "start_time": 2103.8,
+    "end_time": 2110.8,
+    "text": "Okay. And for our files, we now have a reply pipe and a request pipe."
+  },
+  {
+    "id": 473,
+    "start_time": 2110.8,
+    "end_time": 2113.8,
+    "text": "And for my client, let's just check the compilation."
+  },
+  {
+    "id": 474,
+    "start_time": 2113.8,
+    "end_time": 2116.8,
+    "text": "let's go back to one of our GCC commands."
+  },
+  {
+    "id": 475,
+    "start_time": 2116.8,
+    "end_time": 2119.8,
+    "text": "And make sure all warnings are enabled."
+  },
+  {
+    "id": 476,
+    "start_time": 2119.8,
+    "end_time": 2121.8,
+    "text": "Okay. we've got a few issues."
+  },
+  {
+    "id": 477,
+    "start_time": 2121.8,
+    "end_time": 2123.8,
+    "text": "we've got."
+  },
+  {
+    "id": 478,
+    "start_time": 2123.8,
+    "end_time": 2126.8,
+    "text": "This one's complaining about sst instead of an int."
+  },
+  {
+    "id": 479,
+    "start_time": 2126.8,
+    "end_time": 2128.8,
+    "text": "That's probably okay."
+  },
+  {
+    "id": 480,
+    "start_time": 2128.8,
+    "end_time": 2130.8,
+    "text": "we can always change it to LD."
+  },
+  {
+    "id": 481,
+    "start_time": 2130.8,
+    "end_time": 2131.8,
+    "text": "That's helpful."
+  },
+  {
+    "id": 482,
+    "start_time": 2131.8,
+    "end_time": 2132.8,
+    "text": "And this one as well."
+  },
+  {
+    "id": 483,
+    "start_time": 2132.8,
+    "end_time": 2133.8,
+    "text": "Same one."
+  },
+  {
+    "id": 484,
+    "start_time": 2133.8,
+    "end_time": 2134.8,
+    "text": "But this one."
+  },
+  {
+    "id": 485,
+    "start_time": 2134.8,
+    "end_time": 2135.8,
+    "text": "It doesn't 48."
+  },
+  {
+    "id": 486,
+    "start_time": 2135.8,
+    "end_time": 2139.8,
+    "text": "We're probably not in a loop."
+  },
+  {
+    "id": 487,
+    "start_time": 2139.8,
+    "end_time": 2141.8,
+    "text": "let's go to line 48."
+  },
+  {
+    "id": 488,
+    "start_time": 2141.8,
+    "end_time": 2144.8,
+    "text": "if N red is less than equal to zero, what do I want to do?"
+  },
+  {
+    "id": 489,
+    "start_time": 2144.8,
+    "end_time": 2150.8,
+    "text": "Well, I could just say return to something has failed."
+  },
+  {
+    "id": 490,
+    "start_time": 2150.8,
+    "end_time": 2159.8,
+    "text": "I do want to specify some fairly message fail to read from pipe."
+  },
+  {
+    "id": 491,
+    "start_time": 2159.8,
+    "end_time": 2165.8,
+    "text": "And I could say specifically reply."
+  },
+  {
+    "id": 492,
+    "start_time": 2165.8,
+    "end_time": 2169.8,
+    "text": "Okay. this."
+  },
+  {
+    "id": 493,
+    "start_time": 2169.8,
+    "end_time": 2171.8,
+    "text": "Current time is 10.49."
+  },
+  {
+    "id": 494,
+    "start_time": 2171.8,
+    "end_time": 2172.8,
+    "text": "this client should be."
+  }
+]
