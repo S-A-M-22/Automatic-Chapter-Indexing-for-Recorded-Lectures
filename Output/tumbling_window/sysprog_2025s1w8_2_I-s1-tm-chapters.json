@@ -1,0 +1,242 @@
+[
+  {
+    "ID": "1",
+    "chapter": "Pipes Between Parent and Child",
+    "start_time": "00:00:00",
+    "end_time": "00:00:35",
+    "description": "We demonstrate using pipes between parent and child processes.",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "parent",
+      "fork",
+      "child"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "2",
+    "chapter": "File Descriptors and Pipes",
+    "start_time": "00:00:35",
+    "end_time": "00:02:54",
+    "description": "Processes can duplicate file descriptors using pipes, allowing them to communicate bidirectionally or independently.",
+    "keywords": [
+      "processes",
+      "pipe",
+      "forking",
+      "process",
+      "blocking"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "3",
+    "chapter": "mkfifo vs Regular File",
+    "start_time": "00:02:54",
+    "end_time": "00:03:40",
+    "description": "mkfifo creates a special file in memory, faster than regular files, useful for pipes between processes.",
+    "keywords": [
+      "mkfifu",
+      "file",
+      "pipe",
+      "buffers",
+      "processes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "4",
+    "chapter": "Shared Pipes & Processes",
+    "start_time": "00:03:40",
+    "end_time": "00:05:20",
+    "description": "A protocol ensures data flow between processes via pipes; activities follow state transitions, leading to varied outcomes based on actions.",
+    "keywords": [
+      "pipe",
+      "processes",
+      "process",
+      "protocol",
+      "activity"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "5",
+    "chapter": "Permissions and Privileges",
+    "start_time": "00:05:20",
+    "end_time": "00:10:21",
+    "description": "Explains how to specify permissions for pipes using user-based and group-based access control.",
+    "keywords": [
+      "permission",
+      "permissions",
+      "privileges",
+      "pipe",
+      "privilege"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "6",
+    "chapter": "Introduction to Server and Client",
+    "start_time": "00:10:21",
+    "end_time": "00:11:12",
+    "description": "A server provides services and answers requests; servers wait for events and respond. Internet interactions involve contacting servers that reply.",
+    "keywords": [
+      "server",
+      "client",
+      "services",
+      "internet",
+      "requests"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "7",
+    "chapter": "Server Operations",
+    "start_time": "00:11:12",
+    "end_time": "00:16:52",
+    "description": "Servers run continuously, awaiting client requests for data or operations. Timing diagrams show server's indefinite operation while clients initiate connections and receive replies.",
+    "keywords": [
+      "servers",
+      "protocol",
+      "client",
+      "server",
+      "pipes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "8",
+    "chapter": "Shared Memory Pipes",
+    "start_time": "00:16:52",
+    "end_time": "00:19:31",
+    "description": "Explains how a single shared pipe allows multiple processes to communicate in an infinite loop.",
+    "keywords": [
+      "pipe",
+      "loop",
+      "processes",
+      "struct",
+      "infinite"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "9",
+    "chapter": "Time Calculation",
+    "start_time": "00:19:31",
+    "end_time": "00:21:46",
+    "description": "Calculates the difference between two times using TV_sec - STOP_TIME.",
+    "keywords": [
+      "compilation",
+      "seconds",
+      "executables",
+      "time",
+      "process"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "10",
+    "chapter": "Running Client and Server",
+    "start_time": "00:21:46",
+    "end_time": "00:23:58",
+    "description": "Explains how to run the client and server, mentions using pipes, and discusses built-in error checking.",
+    "keywords": [
+      "pipe",
+      "file",
+      "executable",
+      "fail",
+      "directory"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "11",
+    "chapter": "Pipe and Echo Server Model",
+    "start_time": "00:23:58",
+    "end_time": "00:25:00",
+    "description": "We discussed using pipes for communication between processes and implementing an echo server model where messages can be sent and echoed back.",
+    "keywords": [
+      "pipe",
+      "echo",
+      "file",
+      "descriptor",
+      "processes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "12",
+    "chapter": "Buffer Operations",
+    "start_time": "00:25:00",
+    "end_time": "00:26:29",
+    "description": "The video explains how data is processed through buffers on servers, including checking buffer sizes, writing messages, and reading from them.",
+    "keywords": [
+      "buffer",
+      "write",
+      "server",
+      "block",
+      "read"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "13",
+    "chapter": "Pacing vs Blocking",
+    "start_time": "00:26:29",
+    "end_time": "00:31:15",
+    "description": "Explains how timing works in loops, including retaining time values while clock changes.",
+    "keywords": [
+      "pacing",
+      "blocking",
+      "looping",
+      "timer",
+      "clock"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "14",
+    "chapter": "File Descriptors and FIFOs",
+    "start_time": "00:31:15",
+    "end_time": "00:34:12",
+    "description": "Explains how to handle file descriptors and FIFOs in C programming, emphasizing the importance of cleaning up resources and sharing names between clients.",
+    "keywords": [
+      "pipe",
+      "client",
+      "fifo",
+      "fifos",
+      "file"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "15",
+    "chapter": "Disk Compilation",
+    "start_time": "00:34:12",
+    "end_time": "00:34:43",
+    "description": "Compiling multiple disks; issues encountered including a redefine of 'red' on 83 due to FIFO changes.",
+    "keywords": [
+      "compilation",
+      "disk",
+      "fifo",
+      "83",
+      "fast"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "16",
+    "chapter": "Server Setup & Compilation",
+    "start_time": "00:34:43",
+    "end_time": "00:36:12",
+    "description": "Failed to provide buffer; compiler errors detected. Server safely compiled with warnings enabled.",
+    "keywords": [
+      "buffer",
+      "warnings",
+      "compiler",
+      "gcc",
+      "pipe"
+    ],
+    "key": "False"
+  }
+]

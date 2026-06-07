@@ -1,0 +1,18 @@
+[
+  {
+    "ID": "1",
+    "chapter": "Echo Server Implementation",
+    "description": "Explains how the Echo server waits for continuous requests from clients.",
+    "start_time": "00:00:00",
+    "end_time": "00:19:04",
+    "key": "True",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "echo",
+      "buffer",
+      "blocking"
+    ],
+    "boundary_source": "visual_cosine_sliding_window"
+  }
+]

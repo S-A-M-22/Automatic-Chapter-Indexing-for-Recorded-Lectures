@@ -1,0 +1,130 @@
+[
+  {
+    "chapter": "Inter-Process Communication",
+    "description": "This week’s lecture focuses on enabling processes to communicate independently through their own memory spaces, crucial for distinguishing multiple programs and maintaining security.",
+    "ID": "1",
+    "start_time": "00:00:00",
+    "end_time": "00:13:59",
+    "keywords": [
+      "processes",
+      "memory",
+      "process",
+      "fork",
+      "processing"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Pipes and Select",
+    "description": "This lecture covers the use of pipes for both synchronous and asynchronous communication between processes, revisiting file operations at a lower level, and introducing the `select` function for non-blocking, asynchronous event handling.",
+    "ID": "2",
+    "start_time": "00:13:59",
+    "end_time": "00:18:38",
+    "keywords": [
+      "buffering",
+      "processes",
+      "buffer",
+      "streams",
+      "process"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "False"
+  },
+  {
+    "chapter": "Creating Pipes",
+    "description": "We create two file descriptors and model a pipe as a queue with ends for writing and reading. Every write results in characters being seen sequentially.",
+    "ID": "3",
+    "start_time": "00:18:38",
+    "end_time": "00:41:10",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "queue",
+      "buffer",
+      "bracket"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Asynchronous Processes",
+    "description": "Parent and child processes communicate through pipes, with the child continuing without reading from the pipe.",
+    "ID": "4",
+    "start_time": "00:41:10",
+    "end_time": "00:45:38",
+    "keywords": [
+      "asynchronous",
+      "processes",
+      "processing",
+      "process",
+      "pipe"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Process Communication",
+    "description": "Converts a simple pipe into a pipe between two processes using fork.",
+    "ID": "5",
+    "start_time": "00:45:38",
+    "end_time": "00:55:53",
+    "keywords": [
+      "fork",
+      "pipe",
+      "pipes",
+      "process",
+      "operation"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Process Communication",
+    "description": "Processes can communicate through pipes, allowing for bidirectional data exchange between parent and child processes.",
+    "ID": "6",
+    "start_time": "00:55:53",
+    "end_time": "01:01:43",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "communicate",
+      "communication",
+      "processes"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Synchronization in Shared Memory",
+    "description": "Process synchronization using shared memory involves sending signals between processes to coordinate their actions.",
+    "ID": "7",
+    "start_time": "01:01:43",
+    "end_time": "01:10:45",
+    "keywords": [
+      "pipes",
+      "communication",
+      "synchronize",
+      "communicate",
+      "communicating"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  },
+  {
+    "chapter": "Pipes",
+    "description": "Explains how multiple file descriptors are created when creating two pipes.",
+    "ID": "8",
+    "start_time": "01:10:45",
+    "end_time": "01:26:51",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "descriptors",
+      "descriptor",
+      "monitoring"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  }
+]

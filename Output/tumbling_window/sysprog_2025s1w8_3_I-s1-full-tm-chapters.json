@@ -1,0 +1,152 @@
+[
+  {
+    "ID": "1",
+    "chapter": "Named Pipe Blocking Read",
+    "start_time": "00:00:00",
+    "end_time": "00:01:17",
+    "description": "Explains the concept of blocking calls in reading from a named pipe, especially when performing an `open` followed by a `read` operation.",
+    "keywords": [
+      "echo",
+      "pipe",
+      "blocking",
+      "opening",
+      "read"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "2",
+    "chapter": "Pipes in Action",
+    "start_time": "00:01:17",
+    "end_time": "00:04:06",
+    "description": "Explains how to use named pipes (FIFOs) with clients sending messages through them, demonstrating both unidirectional and bidirectional communication.",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "blocking",
+      "block",
+      "processing"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "3",
+    "chapter": "Non-Blocking Mode in Echo Server",
+    "start_time": "00:04:06",
+    "end_time": "00:05:25",
+    "description": "Explains how to modify an existing Echo server to operate in non-blocking mode, addressing issues related to reading from pipes.",
+    "keywords": [
+      "pipe",
+      "blocking",
+      "echo",
+      "read",
+      "rmstart"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "4",
+    "chapter": "Waiting for Data",
+    "start_time": "00:05:25",
+    "end_time": "00:07:18",
+    "description": "The speaker discusses using loops to wait for data reception in a non-blocking manner.",
+    "keywords": [
+      "blocking",
+      "delay",
+      "block",
+      "return",
+      "loop"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "5",
+    "chapter": "Buffer Management",
+    "start_time": "00:07:18",
+    "end_time": "00:10:28",
+    "description": "The speaker discusses avoiding random delays in data processing loops using a busy loop approach.",
+    "keywords": [
+      "blocking",
+      "delays",
+      "buffer",
+      "node",
+      "block"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "6",
+    "chapter": "E-Wood Block vs. STD",
+    "start_time": "00:10:28",
+    "end_time": "00:11:01",
+    "description": "The speaker checks if they have the correct spelling of E-Wood block and STD, realizing they might have misspelled one.",
+    "keywords": [
+      "ewood",
+      "std",
+      "block",
+      "underscore",
+      "missed"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "7",
+    "chapter": "Error Numbers in eWood Block Sign",
+    "start_time": "00:11:01",
+    "end_time": "00:12:14",
+    "description": "eWood block signs seem to have errors that result in specific numbers.",
+    "keywords": [
+      "ewood",
+      "sign",
+      "error",
+      "block",
+      "numbers"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "8",
+    "chapter": "Error Handling in Python",
+    "start_time": "00:12:14",
+    "end_time": "00:14:26",
+    "description": "We discuss returning errors and handling exceptions in Python functions.",
+    "keywords": [
+      "symbols",
+      "pyra",
+      "error",
+      "return",
+      "efls"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "9",
+    "chapter": "Client Loop Structure",
+    "start_time": "00:14:26",
+    "end_time": "00:15:20",
+    "description": "The client loop ends with an exit due to failure on `pipe` usage; the program returns non-zero indicating an error.",
+    "keywords": [
+      "pipe",
+      "exited",
+      "client",
+      "fail",
+      "loop"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "10",
+    "chapter": "Pipe Blocking Reads",
+    "start_time": "00:15:20",
+    "end_time": "00:19:04",
+    "description": "Explains how pipes in programming handle blocking reads and potential issues.",
+    "keywords": [
+      "pipe",
+      "blocking",
+      "reads",
+      "commands",
+      "read"
+    ],
+    "key": "True"
+  }
+]

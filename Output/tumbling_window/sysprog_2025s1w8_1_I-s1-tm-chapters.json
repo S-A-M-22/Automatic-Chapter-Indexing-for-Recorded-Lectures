@@ -1,0 +1,467 @@
+[
+  {
+    "ID": "1",
+    "chapter": "Inter-Process Communication",
+    "start_time": "00:00:00",
+    "end_time": "00:04:22",
+    "description": "This week's lecture covers how processes manage their own memory and communicate independently.",
+    "keywords": [
+      "processes",
+      "memory",
+      "process",
+      "fork",
+      "kernel"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "2",
+    "chapter": "Process Termination & Signals",
+    "start_time": "00:04:25",
+    "end_time": "00:06:35",
+    "description": "When a process terminates due to receiving a signal, it triggers the kernel's awareness and allows the parent process to continue.",
+    "keywords": [
+      "fork",
+      "process",
+      "terminate",
+      "signal",
+      "handler"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "3",
+    "chapter": "Synchronization in Processes",
+    "start_time": "00:06:35",
+    "end_time": "00:08:45",
+    "description": "Setting up new processes incurs overhead due to context switching; allowing children to terminate directly reduces unnecessary computations.",
+    "keywords": [
+      "processes",
+      "processing",
+      "process",
+      "synchronization",
+      "synchronize"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "4",
+    "chapter": "Synchronous Processes",
+    "start_time": "00:08:54",
+    "end_time": "00:10:52",
+    "description": "Processes can execute synchronously without creating new ones; they share resources and data, allowing for efficient communication between them.",
+    "keywords": [
+      "processes",
+      "process",
+      "orders",
+      "synchronous",
+      "processing"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "5",
+    "chapter": "Synchronous vs Asynchronous Communication",
+    "start_time": "00:10:53",
+    "end_time": "00:12:27",
+    "description": "This segment explains synchronous (sequential) and asynchronous (parallel) processes in computing, highlighting their differences.",
+    "keywords": [
+      "asynchronous",
+      "synchronous",
+      "processing",
+      "process",
+      "communication"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "6",
+    "chapter": "Signals Overview",
+    "start_time": "00:12:27",
+    "end_time": "00:13:45",
+    "description": "Signals allow asynchronous event handling without modifying existing code. A signal handler sets a flag when an event occurs.",
+    "keywords": [
+      "signals",
+      "signal",
+      "asynchronous",
+      "synchronization",
+      "events"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "7",
+    "chapter": "Asynchronous vs Synchronous Input",
+    "start_time": "00:13:45",
+    "end_time": "00:14:36",
+    "description": "We discuss asynchronous events like keyboard presses moving dynamically without knowing their timing. Pipes enable both synchronous and asynchronous communication, showing how they fit into different scenarios.",
+    "keywords": [
+      "asynchronous",
+      "synchronous",
+      "keyboard",
+      "blocking",
+      "pressed"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "8",
+    "chapter": "Buffering Mechanisms in Processes",
+    "start_time": "00:14:36",
+    "end_time": "00:18:41",
+    "description": "Explains how buffers manage data flow between processes, discussing shared memory's benefits and limitations.",
+    "keywords": [
+      "buffering",
+      "buffer",
+      "processes",
+      "memory",
+      "allocated"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "9",
+    "chapter": "File Descriptors & Pipes",
+    "start_time": "00:18:41",
+    "end_time": "00:20:07",
+    "description": "We create two file descriptors and model a pipe as a queue. Every write ends up being read in reverse order.",
+    "keywords": [
+      "pipe",
+      "queue",
+      "bracket",
+      "reading",
+      "read"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "10",
+    "chapter": "File Descriptors & Pipes",
+    "start_time": "00:20:07",
+    "end_time": "00:27:28",
+    "description": "Explains how pipes work with file descriptors, initializing them to -1 as placeholders.",
+    "keywords": [
+      "pipe",
+      "buffer",
+      "descriptor",
+      "fd",
+      "descriptors"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "11",
+    "chapter": "Interprocess Communication Overview",
+    "start_time": "00:27:28",
+    "end_time": "00:29:21",
+    "description": "Explains how processes communicate through pipes, moving data segments between them.",
+    "keywords": [
+      "interprocess",
+      "processes",
+      "pipe",
+      "process",
+      "memory"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "12",
+    "chapter": "File Descriptors and Buffers",
+    "start_time": "00:29:21",
+    "end_time": "00:30:55",
+    "description": "Reading data from a pipe involves using file descriptors, buffers, and heap memory to manage large amounts of data efficiently.",
+    "keywords": [
+      "buffer",
+      "pipe",
+      "bytes",
+      "flow",
+      "memory"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "13",
+    "chapter": "Memory Management Basics",
+    "start_time": "00:30:55",
+    "end_time": "00:33:36",
+    "description": "Explains how to allocate and initialize memory on the stack, focusing on setting values like null.",
+    "keywords": [
+      "buffer",
+      "bytes",
+      "byte",
+      "buff",
+      "memory"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "14",
+    "chapter": "Memory Management Cleanup",
+    "start_time": "00:33:36",
+    "end_time": "00:35:33",
+    "description": "After freeing memory and closing file descriptors, additional cleanup steps include framing memory and optimizing code repetition.",
+    "keywords": [
+      "pipe",
+      "malloc",
+      "buffer",
+      "memory",
+      "cleanup"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "15",
+    "chapter": "Data Encoding Basics",
+    "start_time": "00:35:33",
+    "end_time": "00:41:49",
+    "description": "Explains encoding as filling data with numbers or ASCII characters to track position within strings.",
+    "keywords": [
+      "encode",
+      "bytes",
+      "string",
+      "byte",
+      "encoded"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "16",
+    "chapter": "Asynchronous Processing",
+    "start_time": "00:41:49",
+    "end_time": "00:44:02",
+    "description": "Child process continues without waiting for data from pipe; data is available instantly.",
+    "keywords": [
+      "asynchronous",
+      "processing",
+      "pipe",
+      "processes",
+      "process"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "17",
+    "chapter": "Pipe Communication",
+    "start_time": "00:44:02",
+    "end_time": "00:50:33",
+    "description": "Shows how pipes allow concurrent execution of parent and child processes, with child waiting on write completion.",
+    "keywords": [
+      "pipe",
+      "processing",
+      "processes",
+      "synchronization",
+      "buffer"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "18",
+    "chapter": "Resource Management in Processes",
+    "start_time": "00:50:33",
+    "end_time": "00:54:10",
+    "description": "In parallel processes sharing resources, closing file descriptors ensures proper resource management.",
+    "keywords": [
+      "buffer",
+      "processes",
+      "process",
+      "parallel",
+      "fork"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "19",
+    "chapter": "Process Creation and Return Codes",
+    "start_time": "00:54:10",
+    "end_time": "00:54:55",
+    "description": "Child process creates a pipe, waits for input, closes file descriptors, exits with return code. Parent captures child's return code using `wait`.",
+    "keywords": [
+      "process",
+      "pipe",
+      "return",
+      "shell",
+      "parent"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "20",
+    "chapter": "Buffering Pipes",
+    "start_time": "00:54:55",
+    "end_time": "00:57:27",
+    "description": "Explains how buffering works in pipes, comparing it to a single-process scenario and discussing potential issues with large numbers.",
+    "keywords": [
+      "pipes",
+      "buffer",
+      "pipe",
+      "processing",
+      "processes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "21",
+    "chapter": "Setting Up Bi-directional Communication",
+    "start_time": "00:57:27",
+    "end_time": "00:59:19",
+    "description": "Two pipes are needed for bidirectional communication. Each pipe uses two file descriptors and reads from them.",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "protocol",
+      "communication",
+      "descriptor"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "22",
+    "chapter": "Sending Messages Between Processes",
+    "start_time": "00:59:19",
+    "end_time": "00:59:58",
+    "description": "If sending a message from a child process to its parent involves writing to a file descriptor and reading back, demonstrating how processes communicate through shared memory.",
+    "keywords": [
+      "parent",
+      "protocol",
+      "child",
+      "file",
+      "write"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "23",
+    "chapter": "Pipe Communication",
+    "start_time": "00:59:58",
+    "end_time": "01:01:58",
+    "description": "Explains how parent writes to child's pipe and child reads from it in a circular synchronous manner.",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "protocol",
+      "process",
+      "processes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "24",
+    "chapter": "Synchronization in Communication",
+    "start_time": "01:01:58",
+    "end_time": "01:04:46",
+    "description": "Process A writes to shared text, synchronizing with child's read of shared text.",
+    "keywords": [
+      "synchronize",
+      "communication",
+      "synchronous",
+      "communicate",
+      "pipes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "25",
+    "chapter": "Process Hierarchy",
+    "start_time": "01:04:46",
+    "end_time": "01:06:10",
+    "description": "Even if pipes are created beforehand, they need a hierarchical structure controlled through forks, leading to complex but often impractical process trees.",
+    "keywords": [
+      "pipes",
+      "processes",
+      "process",
+      "hierarchy",
+      "fork"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "26",
+    "chapter": "Signals in Process Communication",
+    "start_time": "01:06:10",
+    "end_time": "01:06:41",
+    "description": "We can avoid sending signals between arbitrary processes; instead, we describe their meanings beforehand, making it easier to design systems where processes change over time.",
+    "keywords": [
+      "signals",
+      "protocol",
+      "signal",
+      "sig",
+      "processes"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "27",
+    "chapter": "IPC Pipes & Processes",
+    "start_time": "01:06:41",
+    "end_time": "01:10:14",
+    "description": "Explains how IPC pipes allow sharing file descriptors across processes without hierarchical dependencies.",
+    "keywords": [
+      "monitoring",
+      "ipc",
+      "pipes",
+      "processes",
+      "pipe"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "28",
+    "chapter": "File Descriptors Overview",
+    "start_time": "01:10:14",
+    "end_time": "01:10:53",
+    "description": "File descriptors are integer identifiers for open files or streams. They start after the initial set of file descriptors when creating pipes.",
+    "keywords": [
+      "pipes",
+      "descriptor",
+      "descriptors",
+      "file",
+      "path"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "29",
+    "chapter": "File Descriptors Overview",
+    "start_time": "01:10:53",
+    "end_time": "01:12:10",
+    "description": "Shows how file descriptors in a process increase sequentially starting at 0.",
+    "keywords": [
+      "pipe",
+      "descriptor",
+      "descriptors",
+      "largest",
+      "index"
+    ],
+    "key": "False"
+  },
+  {
+    "ID": "30",
+    "chapter": "File Descriptor Management",
+    "start_time": "01:12:10",
+    "end_time": "01:15:32",
+    "description": "Explains how using pre-existing file descriptor indices simplifies checking active file descriptors compared to visiting each one individually.",
+    "keywords": [
+      "descriptor",
+      "descriptors",
+      "process",
+      "allocated",
+      "memory"
+    ],
+    "key": "True"
+  },
+  {
+    "ID": "31",
+    "chapter": "Bit Masking and File Descriptors",
+    "start_time": "01:15:32",
+    "end_time": "01:26:51",
+    "description": "Explains how bit masking can efficiently monitor file descriptors for readable data.",
+    "keywords": [
+      "bits",
+      "byte",
+      "buffer",
+      "macros",
+      "reading"
+    ],
+    "key": "True"
+  }
+]

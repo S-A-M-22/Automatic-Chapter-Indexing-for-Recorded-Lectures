@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoChapter — Visual Sliding-Window Pipeline</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #f4f5f7;
+    color: #1a1a2e;
+    padding: 40px 24px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #606070;
+    margin-bottom: 36px;
+  }
+
+  /* ── Pipeline flow ───────────────────────────────── */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Vertical connector line */
+  .connector {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    height: 36px;
+    position: relative;
+  }
+  .connector::after {
+    content: '';
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, #c8c8d4, #16a34a);
+  }
+  .connector .arrow {
+    position: absolute;
+    bottom: -2px;
+    font-size: 14px;
+    color: #16a34a;
+  }
+
+  /* Save connector (branches into two) */
+  .save-fork {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 36px;
+    position: relative;
+  }
+  .save-fork::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    width: 2px; height: 50%;
+    background: #c8c8d4;
+    transform: translateX(-50%);
+  }
+  .save-fork-branches {
+    position: absolute;
+    bottom: 0;
+    width: 400px;
+    height: 18px;
+    border-top: 2px solid #c8c8d4;
+    border-left: 2px solid #c8c8d4;
+    border-right: 2px solid #c8c8d4;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .save-outputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── Step card ───────────────────────────────────── */
+  .step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid #dcdce6;
+    border-radius: 10px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+  .step:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .step-number {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .step-badge {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .step-num-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #909098;
+    letter-spacing: 0.06em;
+  }
+
+  .step-content h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #111116;
+  }
+  .step-content p {
+    font-size: 12.5px;
+    color: #606070;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  /* Tech tags */
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+  .tag.tool     { background: #e8f4fd; color: #0369a1; border: 1px solid #bae0f5; }
+  .tag.model    { background: #f0e8fd; color: #7c3aed; border: 1px solid #d8c6f7; }
+  .tag.param    { background: #e8fde8; color: #16803d; border: 1px solid #b8e8b8; }
+  .tag.output   { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+
+  /* Colour-coded step badges */
+  .step-1 .step-badge { background: #dbeafe; color: #1d4ed8; }
+  .step-2 .step-badge { background: #fce7f3; color: #be185d; }
+  .step-3 .step-badge { background: #d1fae5; color: #065f46; }
+  .step-4 .step-badge { background: #fef3c7; color: #92400e; }
+  .step-5 .step-badge { background: #ede9fe; color: #5b21b6; }
+  .step-6 .step-badge { background: #e0f2fe; color: #0c4a6e; }
+
+  /* ── Output file cards ───────────────────────────── */
+  .output-card {
+    background: #fff;
+    border: 1px solid #dcdce6;
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .output-card .file-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .output-card .file-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .output-card .file-desc {
+    font-size: 11px;
+    color: #606070;
+    line-height: 1.5;
+  }
+
+  /* ── IO legend ───────────────────────────────────── */
+  .io-flow {
+    margin-top: 36px;
+    background: #fff;
+    border: 1px solid #dcdce6;
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .io-flow h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #909098;
+    margin-bottom: 14px;
+  }
+  .io-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .io-table th {
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #909098;
+    padding: 6px 10px;
+    border-bottom: 1px solid #e8e8ee;
+  }
+  .io-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f5;
+    color: #333340;
+    vertical-align: top;
+  }
+  .io-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+    color: #111;
+  }
+  .io-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>AutoChapter &mdash; Visual Sliding-Window Pipeline</h1>
+  <p class="subtitle">6-stage chapter segmentation: visual boundary detection + NLP + LLM labelling</p>
+
+  <div class="pipeline">
+
+    <!-- STEP 1 -->
+    <div class="step step-1">
+      <div class="step-number">
+        <div class="step-badge">&#x1F3B5;</div>
+        <span class="step-num-label">1 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>Audio Extraction</h3>
+        <p>Extract single-channel 16 kHz WAV audio from the uploaded video file using FFmpeg.</p>
+        <div class="tags">
+          <span class="tag tool">FFmpeg</span>
+          <span class="tag param">16 kHz mono</span>
+          <span class="tag output">{stem}.wav</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="arrow">&#9662;</span></div>
+
+    <!-- STEP 2 -->
+    <div class="step step-2">
+      <div class="step-number">
+        <div class="step-badge">&#x1F399;</div>
+        <span class="step-num-label">2 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>Speech-to-Text (Whisper ASR)</h3>
+        <p>Transcribe the audio into timed text segments using OpenAI Whisper. Filler words are cleaned. Output is saved as a plain-text transcript file.</p>
+        <div class="tags">
+          <span class="tag model">Whisper large-v3-turbo</span>
+          <span class="tag param">language=en</span>
+          <span class="tag output">{stem}_transcript.txt</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="arrow">&#9662;</span></div>
+
+    <!-- STEP 3 -->
+    <div class="step step-3">
+      <div class="step-number">
+        <div class="step-badge">&#x1F441;</div>
+        <span class="step-num-label">3 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>Visual Feature Extraction + Boundary Detection</h3>
+        <p>
+          Sample video frames at fixed intervals and extract 512-d feature vectors via ResNet-18 (classification head removed).
+          Build overlapping sliding windows, compute inter-window cosine distance, smooth with a Gaussian kernel,
+          and detect peaks as visual scene-change boundaries.
+        </p>
+        <div class="tags">
+          <span class="tag model">ResNet-18 (ImageNet)</span>
+          <span class="tag param">frame every 15s</span>
+          <span class="tag param">W=60s  S=5s</span>
+          <span class="tag param">&sigma;=2.0</span>
+          <span class="tag tool">scipy find_peaks</span>
+          <span class="tag param">prominence&ge;0.05</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="arrow">&#9662;</span></div>
+
+    <!-- STEP 4 -->
+    <div class="step step-4">
+      <div class="step-number">
+        <div class="step-badge">&#x1F4DD;</div>
+        <span class="step-num-label">4 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>Transcript Slicing + SBERT + KeyBERT</h3>
+        <p>
+          Slice Whisper segments at the visual breakpoints to form chapter-length text blocks.
+          Merge any chapter shorter than 60 words into its neighbour.
+          Encode chapter text with SBERT and extract the top 5 keywords per chapter via KeyBERT.
+          Save the resulting chapter features as <strong>raw_chapter.json</strong>.
+        </p>
+        <div class="tags">
+          <span class="tag model">all-MiniLM-L6-v2</span>
+          <span class="tag model">KeyBERT</span>
+          <span class="tag param">min 60 words</span>
+          <span class="tag param">top_n=5 keywords</span>
+          <span class="tag output">raw_chapter.json</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="arrow">&#9662;</span></div>
+
+    <!-- STEP 5 -->
+    <div class="step step-5">
+      <div class="step-number">
+        <div class="step-badge">&#x1F9E0;</div>
+        <span class="step-num-label">5 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>LLM Chapter Labelling + Classification</h3>
+        <p>
+          Feed each chapter's transcript, timestamps, and word count to Qwen 2.5-1.5B-Instruct.
+          The LLM generates a 5&ndash;8 word title and a 1&ndash;2 sentence description per chapter.
+          A keyword heuristic then classifies each chapter as <em>key</em> or <em>skip</em> (low-value).
+          Up to 3 retries with JSON brace extraction for robustness.
+        </p>
+        <div class="tags">
+          <span class="tag model">Qwen2.5-1.5B-Instruct</span>
+          <span class="tag param">CPU float32</span>
+          <span class="tag param">temp=0.1</span>
+          <span class="tag param">max 3 retries</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="arrow">&#9662;</span></div>
+
+    <!-- STEP 6 -->
+    <div class="step step-6">
+      <div class="step-number">
+        <div class="step-badge">&#x1F4BE;</div>
+        <span class="step-num-label">6 / 6</span>
+      </div>
+      <div class="step-content">
+        <h3>Save Final Chapters</h3>
+        <p>
+          Write the labelled chapter index as a JSON array.
+          Each entry contains: ID, title, description, start/end timestamps, key/skip classification,
+          5 keywords, and the boundary source tag.
+        </p>
+        <div class="tags">
+          <span class="tag output">{stem}-chapters.json</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fork into two output files -->
+    <div class="save-fork">
+      <div class="save-fork-branches"></div>
+    </div>
+
+    <div class="save-outputs">
+      <div class="output-card">
+        <div class="file-icon">&#x1F4C4;</div>
+        <div class="file-name">Output/raw_chapter.json</div>
+        <div class="file-desc">
+          Intermediate chapter features:<br>
+          timestamps, word counts, full transcript text, 5 keywords per chapter
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="file-icon">&#x1F4D7;</div>
+        <div class="file-name">Output/{stem}-chapters.json</div>
+        <div class="file-desc">
+          Final labelled chapters:<br>
+          LLM title + description, key/skip flag, keywords, boundary source
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I/O summary table -->
+  <div class="io-flow">
+    <h4>Pipeline Input / Output Summary</h4>
+    <table class="io-table">
+      <thead>
+        <tr><th>Step</th><th>Input</th><th>Output</th><th>Models / Tools</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Audio</td>
+          <td>Video file (.mp4, .webm, etc.)</td>
+          <td>WAV audio (16 kHz, mono)</td>
+          <td>FFmpeg</td>
+        </tr>
+        <tr>
+          <td>2. ASR</td>
+          <td>WAV audio</td>
+          <td>Timed transcript segments</td>
+          <td>Whisper large-v3-turbo</td>
+        </tr>
+        <tr>
+          <td>3. Visual</td>
+          <td>Video frames (sampled every 15s)</td>
+          <td>Scene-change boundary timestamps</td>
+          <td>ResNet-18, scipy</td>
+        </tr>
+        <tr>
+          <td>4. NLP</td>
+          <td>Transcript + visual breakpoints</td>
+          <td>Chapter text blocks + keywords &rarr; <strong>raw_chapter.json</strong></td>
+          <td>SBERT, KeyBERT</td>
+        </tr>
+        <tr>
+          <td>5. LLM</td>
+          <td>Chapter features</td>
+          <td>Titles, descriptions, key/skip labels</td>
+          <td>Qwen2.5-1.5B-Instruct</td>
+        </tr>
+        <tr>
+          <td>6. Save</td>
+          <td>Labelled chapters</td>
+          <td><strong>{stem}-chapters.json</strong></td>
+          <td>&mdash;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

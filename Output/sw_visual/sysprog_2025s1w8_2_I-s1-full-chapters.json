@@ -1,0 +1,18 @@
+[
+  {
+    "chapter": "Pipes",
+    "description": "Explains how pipes allow communication between parent and child or between two independent processes.",
+    "ID": "1",
+    "start_time": "00:00:00",
+    "end_time": "00:36:12",
+    "keywords": [
+      "pipes",
+      "pipe",
+      "forking",
+      "processes",
+      "fork"
+    ],
+    "boundary_source": "visual_cosine_sliding_window",
+    "key": "True"
+  }
+]

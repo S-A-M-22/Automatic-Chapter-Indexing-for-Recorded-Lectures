@@ -1,0 +1,50 @@
+[
+  {
+    "ID": "1",
+    "chapter": "Memory Mapping",
+    "description": "Allows mapping a file or device to processor's memory, addressing read/write operations' limitations and I/O speed issues.",
+    "start_time": "00:00:00",
+    "end_time": "00:09:59",
+    "key": "True",
+    "keywords": [
+      "interprocess",
+      "buffering",
+      "buffer",
+      "memory",
+      "processing"
+    ],
+    "boundary_source": "visual_cosine_sliding_window"
+  },
+  {
+    "ID": "2",
+    "chapter": "Mapped File Access",
+    "description": "Pointer to mapped file returned upon successful function call; otherwise, indicates an error.",
+    "start_time": "00:09:59",
+    "end_time": "00:22:47",
+    "key": "True",
+    "keywords": [
+      "pointer",
+      "parameters",
+      "mapped",
+      "buffer",
+      "map"
+    ],
+    "boundary_source": "visual_cosine_sliding_window"
+  },
+  {
+    "ID": "3",
+    "chapter": "Graphics Memory Mapping",
+    "description": "Explains how to directly access files using pointers in memory with potential security risks.",
+    "start_time": "00:22:47",
+    "end_time": "00:25:52",
+    "key": "True",
+    "keywords": [
+      "memory",
+      "graphics",
+      "vga",
+      "programs",
+      "files"
+    ],
+    "boundary_source": "visual_cosine_sliding_window"
+  }
+]
