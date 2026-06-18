@@ -236,96 +236,6 @@ Output/
 
 ---
 
-## Figure & Test Scripts
-
-Each `test_fig_*.py` script is self-contained: it runs unit tests on the relevant pipeline helpers, computes data points from real or synthetic transcript/chapter data, and then renders the corresponding thesis figure using matplotlib. Scripts can be run individually without the Flask server or any video files.
-
-### Running a single figure script
-```bash
-python test_fig_sliding_window_segmentation.py
-python test_fig_pipeline_comparison.py
-# etc.
-```
-
-Output PNGs are written to `test_results_figures/` at 200 DPI (sized for A4 Word document).
-
-### Additional packages needed for figure scripts
-```bash
-pip install matplotlib seaborn
-```
-
-### Figure script reference
-
-| Script | Output | What it shows |
-|---|---|---|
-| `test_fig_baseline_pipeline.py` | `slide4_baseline_pipeline.png` | Text-first pipeline flow diagram |
-| `test_fig_visual_pipeline.py` | `slide5_visual_pipeline.png` | Visual sliding-window pipeline flow diagram |
-| `test_fig_sliding_window_segmentation.py` | `slide6_sliding_window_segmentation.png` | How the sliding window traverses a video and detects boundaries |
-| `test_fig_pipeline_comparison.py` | `pipeline_comparison.png` | Head-to-head metrics: chapter count, mean duration, key%, for Weeks 01–06 |
-| `test_fig_features_llm.py` | `slide8_features_llm.png` | ResNet-18 feature extraction and LLM stage detail |
-| `test_fig_llm_prompt_output.py` | `slide8b_llm_prompt_output.png` | Example LLM prompt and structured JSON output |
-| `test_fig_coherence_analysis.py` | `slide14_coherence_analysis.png` | Between-chapter SBERT cosine similarity analysis |
-| `test_fig_key_results_v2.py` | `slide14_key_results_v2.png` | Key results summary across all evaluated lectures |
-| `test_benchmark_w01_w06.py` | `benchmark_w01_w06.png` | Effect of window width/step parameters (W=01–06) |
-| `test_llm_model_comparison.py` | `llm_model_comparison.png` | Qwen model ablation: load time, inference speed, JSON success rate |
-
----
-
-## Evaluation Suite (`pipeline_test.py`)
-
-`pipeline_test.py` is a comprehensive evaluation driver that re-runs both pipelines from raw transcripts and compares them against the existing saved chapter outputs.
-
-### What it does
-
-1. Parses all `*_transcript.txt` files in `static/transcripts/`.
-2. Re-runs the text-first tumbling-window segmentation (300-word windows) from the transcripts.
-3. Re-runs a visual-proxy segmentation — the same sliding-window cosine-peak algorithm as Pipeline 2, but using SBERT text embeddings instead of ResNet-18 frame features. This proxy runs in under 5 minutes without video files.
-4. Loads existing chapter JSONs from `Output/` (the real Pipeline 2 outputs).
-5. Computes metrics across all three: SBERT between-chapter similarity, duration statistics, key/skip ratio, and chapter count.
-6. Saves `metrics_results.json` and generates 10 publication-quality PNG figures (R1–R10).
-
-### Running the evaluation
-```bash
-python pipeline_test.py                # full evaluation + all 10 figures
-python pipeline_test.py --no-figures   # metrics only (faster)
-```
-
-Requires transcripts in `static/transcripts/` and chapter JSONs in `Output/`. Run `sw_visual_app.py` on at least one video first to generate both.
-
-### Generated figures (R1–R10)
-
-| Figure | File | Description |
-|---|---|---|
-| R1 | `figR1_chapter_count.png` | Chapter count per video, all three approaches |
-| R2 | `figR2_between_sbert.png` | Mean adjacent-chapter SBERT cosine similarity (lower = more distinct) |
-| R3 | `figR3_duration_distributions.png` | Chapter duration histograms by pipeline and lecture |
-| R4 | `figR4_cosine_distance_curves.png` | SBERT cosine-distance curves with detected breakpoints |
-| R5 | `figR5_key_skip_breakdown.png` | Key vs skip chapter breakdown by pipeline |
-| R6 | `figR6_duration_stats.png` | Mean and std chapter duration bars |
-| R7 | `figR7_sbert_detail.png` | Per-boundary SBERT similarity for the highest-chapter-count video |
-| R8 | `figR8_aggregate_summary.png` | Aggregate metrics across all lectures |
-| R9 | `figR9_chapter_timelines.png` | Chapter timeline strips (text-first vs visual-proxy side by side) |
-| R10 | `figR10_results_table.png` | Full numeric results table |
-
----
-
-## LLM Model Ablation (`test_llm_model_comparison.py`)
-
-`test_llm_model_comparison.py` benchmarks eight Qwen-family models (0.5 B–3 B parameters) against the chapter-labelling task from Pipeline 2, using Week 01 Systems Programming lecture content as input.
-
-Metrics recorded per model: wall-clock load time, single-chapter inference time, estimated time for 10 chapters, peak RAM delta, JSON parse success rate, title word count, output token count, and tokens/second.
-
-```bash
-python test_llm_model_comparison.py              # unit tests + reference table (no downloads)
-python test_llm_model_comparison.py --live       # download and benchmark all models (~2 h on CPU)
-python test_llm_model_comparison.py --live --model M5   # benchmark one model
-python test_llm_model_comparison.py --live --save-results results_qwen.json
-```
-
-`Qwen2.5-1.5B-Instruct` was selected for Pipeline 2 as the best balance of inference speed, JSON reliability, and title quality on a 16 GB CPU-only machine.
-
----
-
 ## Configuration Reference
 
 All parameters that affect pipeline behaviour are collected at the top of `sw_visual_app.py`. Changing any of them does not require touching the pipeline logic:
@@ -342,21 +252,6 @@ All parameters that affect pipeline behaviour are collected at the top of `sw_vi
 | `WHISPER_SIZE` | `base` | Options: `tiny`, `base`, `small`, `medium`, `large` |
 | `LLM_MODEL` | `Qwen/Qwen2.5-1.5B-Instruct` | Any HF causal LM that supports chat templates |
 | `SBERT_MODEL` | `all-MiniLM-L6-v2` | Used for KeyBERT keyword extraction |
-
----
-
-## Thesis Generation
-
-The LaTeX thesis source lives in `thesis_latex/thesis.tex`. Each chapter also has a standalone Python PDF generator (using ReportLab) for rapid iteration:
-
-```bash
-python thesis_ch1_introduction.py    # → Output/thesis_ch1_introduction.pdf
-python thesis_ch3_methodology.py     # → Output/thesis_ch3_methodology.pdf
-python generate_full_thesis.py       # → assembles all chapters into one PDF
-python generate_results_pdf.py       # → standalone results section PDF
-```
-
-Thesis figures are generated by `thesis_figure_1.py` … `thesis_figure_6.py` and output as both PNG (embedded in the PDF) and standalone files in the root directory.
 
 ---
 
