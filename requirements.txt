@@ -1,0 +1,33 @@
+# ── Core framework ──────────────────────────────────────────
+flask>=3.0,<4
+
+# ── Audio / Video ───────────────────────────────────────────
+openai-whisper
+ffmpeg-python
+soundfile
+opencv-python==4.9.0.80
+
+# ── PyTorch (CPU) ───────────────────────────────────────────
+torch==2.6.0
+torchaudio>=2.1,<3
+
+# ── NLP / Deep-Learning ────────────────────────────────────
+transformers==4.46.3
+accelerate==0.34.2
+datasets[audio]>=2.18
+sentence-transformers==2.7.0
+keybert
+
+# ── Vision ────────────────────────────────────────────────
+torchvision>=0.17,<1
+opencv-python-headless
+Pillow>=10.0
+
+# ── Numeric / Utilities ────────────────────────────────────
+numpy>=1.26.4,<2.0
+scipy>=1.12
+tqdm
+
+# ── Notebook tooling (optional, for running notebooks) ─────
+jupyter
+nbconvert

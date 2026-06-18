@@ -1,94 +1,79 @@
-# #run terminal command to setup virtual environment first: python -3.11 -m venv .venv
-# PYTHON_VERSION := 3.11
-# VENV := .venv
-# PIP := $(VENV)/bin/pip
-# PY := $(VENV)/bin/python
+# ===========================================================
+#  AutoChapter  -  Makefile (Windows / Python 3.11)
+#
+#  Quick start:
+#      make            # create venv + install packages
+#      make run        # launch Flask app (text-first pipeline)
+#      make run-visual # launch Flask app (visual sliding-window pipeline)
+#      make clean      # remove venv and caches
+# ===========================================================
 
-# .PHONY: all setup install-system venv install-python run-notebook clean
+PYTHON_311 := C:/Python311/python.exe
+VENV       := .venv
+PY         := $(VENV)/Scripts/python.exe
+PIP        := $(PY) -m pip
+PORT       := 5000
 
-# all: setup
+.PHONY: all setup venv install check-python check-ffmpeg install-ffmpeg run run-visual clean
 
-# setup: install-system venv install-python
-
-# venv:
-# 	@echo "Creating virtual environment in $(VENV) (if missing)..."
-# 	@test -d $(VENV) || python$(PYTHON_VERSION) -m venv $(VENV)
-# 	$(PIP) install -U pip setuptools wheel
-
-# install-system:
-# 	sudo apt-get update -y
-# 	sudo apt-get install -y \
-# 		python$(PYTHON_VERSION) \
-# 		python$(PYTHON_VERSION)-venv \
-# 		python$(PYTHON_VERSION)-dev \
-# 		ffmpeg \
-# 		libgl1
-
-# install-python:
-# 	$(PIP) install -U \
-# 		openai-whisper \
-# 		torch torchaudio \
-# 		numpy soundfile \
-# 		transformers accelerate datasets[audio] \
-# 		ffmpeg-python \
-# 		opencv-python \
-# 		jupyter nbconvert
-
-# run-notebook:
-# 	$(PY) -m nbconvert \
-# 		--to notebook \
-# 		--execute "Notebook 1.ipynb" \
-# 		--output "Notebook-executed.ipynb" \
-# 		--ExecutePreprocessor.timeout=1200
-
-# clean:
-# 	rm -rf $(VENV)
-# 	rm -rf __pycache__
-# 	rm -rf Notebook-executed.ipynb
-# 	@echo "venv cleaned!\n"
-
-PYTHON := python
-VENV := .venv
-PIP := $(VENV)/Scripts/pip
-PY := $(VENV)/Scripts/python
-
-.PHONY: all setup venv install-python run-notebook clean check-ffmpeg
-
+# -- Default target ------------------------------------------
 all: setup
 
-setup: check-ffmpeg venv install-python
+# -- Full setup (venv + packages) ----------------------------
+setup: check-python check-ffmpeg venv install
+	@echo.
+	@echo =============================================
+	@echo   Setup complete!  Run  make run  to start.
+	@echo =============================================
 
-venv:
-	@if not exist $(VENV) ( \
-		echo Creating virtual environment... && \
-		$(PYTHON) -m venv $(VENV) \
+# -- Pre-flight checks --------------------------------------
+check-python:
+	@$(PYTHON_311) --version >nul 2>&1 || ( \
+		echo ERROR: Python 3.11 not found at $(PYTHON_311). && \
+		echo Install Python 3.11 or update PYTHON_311 in this Makefile. && \
+		exit /b 1 \
 	)
-	$(PIP) install -U pip setuptools wheel
+	@echo [OK] Python 3.11 found
 
 check-ffmpeg:
-	@ffmpeg -version >nul 2>&1 || ( \
-		echo FFmpeg NOT found. Install FFmpeg and add to PATH. && exit 1 \
+	@ffmpeg -version >nul 2>&1 && ( \
+		echo [OK] FFmpeg found \
+	) || ( \
+		echo [!!] FFmpeg not found - installing via choco ... && \
+		choco install ffmpeg -y && \
+		refreshenv && \
+		echo [OK] FFmpeg installed \
 	)
 
-install-python:
-	$(PIP) install -U \
-		openai-whisper \
-		torch torchaudio \
-		numpy soundfile \
-		transformers accelerate datasets[audio] \
-		ffmpeg-python \
-		opencv-python \
-		jupyter nbconvert
+# -- Create virtual-env (idempotent) ------------------------
+venv:
+	@if not exist $(PY) ( \
+		echo Creating .venv with Python 3.11 ... && \
+		$(PYTHON_311) -m venv $(VENV) \
+	)
+	$(PIP) install --upgrade pip setuptools wheel
 
-run-notebook:
-	$(PY) -m nbconvert \
-		--to notebook \
-		--execute "Notebook 1.ipynb" \
-		--output "Notebook-executed.ipynb" \
-		--ExecutePreprocessor.timeout=1200
+# -- Install all dependencies --------------------------------
+install:
+	$(PIP) install -r requirements.txt
 
+# -- Run the Flask app (text-first pipeline) -------------------
+run:
+	@echo =============================================
+	@echo   AutoChapter  http://localhost:$(PORT)
+	@echo =============================================
+	$(PY) run_app.py
+
+# -- Run the Flask app (visual sliding-window pipeline) --------
+run-visual:
+	@echo =============================================
+	@echo   AutoChapter (Visual Pipeline)
+	@echo   http://localhost:$(PORT)
+	@echo =============================================
+	$(PY) sw_visual_app.py
+
+# -- Housekeeping --------------------------------------------
 clean:
 	@if exist $(VENV) rmdir /s /q $(VENV)
 	@if exist __pycache__ rmdir /s /q __pycache__
-	@if exist Notebook-executed.ipynb del Notebook-executed.ipynb
-	@echo venv cleaned!
+	@echo Cleaned.
