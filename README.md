@@ -1,6 +1,6 @@
 # Automatic Lecture Video Chapter Indexing
 
-This project is a Flask web application that automatically segments lecture videos into labelled, navigable chapters. It was developed as the primary artefact of a thesis investigating automated chapter indexing for recorded lectures. The codebase contains two complete segmentation pipelines, a comprehensive evaluation suite, and the LaTeX source for the thesis itself.
+This project is a Flask web application that automatically segments lecture videos into labelled, navigable chapters. It was developed as part of my thesis investigating automated chapter indexing for recorded lectures. The codebase contains two complete segmentation pipelines and a comprehensive evaluation suite.
 
 ---
 
@@ -19,12 +19,12 @@ This project is a Flask web application that automatically segments lecture vide
 
 ## Project Overview
 
-Lecture recordings are hard to navigate. Auto-Chaptering goes through a video and automatically produces a chapter index — a list of timestamped, labelled segments that can be clicked to jump directly to that point in the lecture. The process is fully automatic: no manual annotations, no slide deck required.
+Lecture recordings are hard to navigate. Auto-Chapter Indexing goes through a video and automatically produces a chapter index — a list of timestamped, labelled segments that can be clicked to jump directly to that point in the lecture. The process is fully automatic: no manual annotations, no slide deck required.
 
 The system combines three complementary signals:
 
-- **Visual change detection** — ResNet-18 frame embeddings catch slide transitions and topic changes that leave a visible trace.
 - **Automatic transcription** — OpenAI Whisper turns spoken audio into timed word segments.
+- **Visual change detection** — ResNet-18 frame embeddings catch slide transitions and topic changes that leave a visible trace.
 - **LLM labelling** — Qwen2.5-1.5B-Instruct reads each segment's transcript and writes a short chapter title and description in structured JSON.
 
 ---
@@ -186,6 +186,70 @@ All models are downloaded automatically from Hugging Face on first use:
 | `Qwen/Qwen2.5-1.5B-Instruct` | ~3.0 GB | `AutoModelForCausalLM.from_pretrained(...)` |
 
 Set `HF_HOME` to a custom cache directory if disk space is limited.
+
+### Hugging Face setup (required for model downloads)
+ 
+All models are downloaded from [Hugging Face](https://huggingface.co) on first use. You need a free account and an access token.
+ 
+**Step 1 — Create a Hugging Face account**
+ 
+Go to [huggingface.co/join](https://huggingface.co/join) and sign up for a free account.
+ 
+**Step 2 — Generate a read token**
+ 
+1. Go to [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+2. Click **New token**
+3. Give it a name (e.g. `autochapter`), set the role to **Read**
+4. Click **Generate token** and copy it
+**Step 3 — Authenticate**
+ 
+Option A — CLI (recommended, token is saved for all future runs):
+```bash
+pip install huggingface_hub
+huggingface-cli login
+# Paste your token when prompted
+```
+ 
+Option B — environment variable (per-session):
+```bash
+# Windows PowerShell
+$env:HF_TOKEN = "hf_your_token_here"
+ 
+# macOS / Linux
+export HF_TOKEN="hf_your_token_here"
+```
+ 
+Option C — set it in code (not recommended for shared machines):
+```python
+from huggingface_hub import login
+login(token="hf_your_token_here")
+```
+ 
+**Step 4 — Accept model terms (if prompted)**
+ 
+All three models used are publicly available and do not require special approval, but if Hugging Face prompts you to accept terms for a model, visit its model page and click **Agree**:
+ 
+- [openai/whisper-base](https://huggingface.co/openai/whisper-base) — no gate
+- [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) — no gate
+- [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) — no gate; click **Files and versions** to confirm access
+### Model downloads
+ 
+Once authenticated, models are downloaded automatically on first use:
+ 
+| Model | Size | Downloaded by |
+|---|---|---|
+| `openai/whisper-base` | ~145 MB | `whisper.load_model("base")` |
+| `sentence-transformers/all-MiniLM-L6-v2` | ~90 MB | `SentenceTransformer(...)` |
+| `Qwen/Qwen2.5-1.5B-Instruct` | ~3.0 GB | `AutoModelForCausalLM.from_pretrained(...)` |
+ 
+To use a custom cache location (useful if your system drive is limited):
+```bash
+# Windows PowerShell
+$env:HF_HOME = "D:\hf_cache"
+ 
+# macOS / Linux
+export HF_HOME="/data/hf_cache"
+```
 
 ---
 
